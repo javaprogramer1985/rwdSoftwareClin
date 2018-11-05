@@ -21,7 +21,7 @@
                         <h:form>
                             <b:inputText placeholder="Usuario" required="true" label="Usuario" colMd="9" labelColMd="3">
                                 <f:facet name="prepend">
-                                    <b:icon name="user"/>
+                                    <b:iconAwesome name="user"/>
                                 </f:facet>
                             </b:inputText>
 
@@ -32,8 +32,9 @@
                             </b:inputSecret>
 
                             <b:panelGrid colSpans="6,6">
-                                <b:button look="primary"  icon="log-in" value="Iniciar sesion" colMd="12"/>
-                                <b:button look="danger" icon="" value="Olvide mi contraseña" colMd="12"/>
+                                <b:button look="primary"  iconAwesome="sign-in" value="Iniciar sesion" colMd="12"/>
+                                <b:button look="danger" iconAwesome="exclamation" value="Olvide mi contraseña" colMd="12">                                    
+                                </b:button>
                             </b:panelGrid>                            
                         </h:form>
                     </b:panel>
