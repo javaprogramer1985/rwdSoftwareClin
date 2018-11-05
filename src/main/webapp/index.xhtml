@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Acceso</title>
+        <style type="text/css">
+            .container {                
+                padding: 35px !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <b:container>
+            <b:row>
+                <b:column col-lg="6" offset-lg="3">
+                    <b:panel title="Acceso" collapsible="false" look="info">
+                        <h:form>
+                            <b:inputText placeholder="Usuario" required="true" label="Usuario" colMd="9" labelColMd="3">
+                                <f:facet name="prepend">
+                                    <b:icon name="user"/>
+                                </f:facet>
+                            </b:inputText>
+
+                            <b:inputSecret placeholder="Contraseña" label="Contraseña" colMd="9" labelColMd="3">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="key" />
+                                </f:facet>
+                            </b:inputSecret>
+
+                            <b:panelGrid colSpans="6,6">
+                                <b:button look="primary" icon="log-in" value="Iniciar sesion" colMd="12"/>
+                                <b:button look="danger" icon="" value="Olvide mi contraseña" colMd="12"/>
+                            </b:panelGrid>                            
+                        </h:form>
+                    </b:panel>
+                </b:column>
+            </b:row>
+        </b:container>
+    </h:body>
+</html>
