@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwareatumedida.rwdsoftwareclin.bean;
+package com.softwareatumedida.rwdsoftwareclin.ejb;
 
-import com.softwareatumedida.rwdsoftwareclin.modelo.Usuarios;
+import com.softwareatumedida.rwdsoftwareclin.entity.Usuarios;
 import java.util.List;
 import javax.ejb.Local;
 
