@@ -1,18 +1,30 @@
 $(document).ready(main);
 var contador = 1;
 function main() {
-    $(".menu_bar").click(
+    $('.button').click(
             function () {
                 if (contador === 1){
-                    alert("OK1");
-                    $("sidebar").animate({
+                    $(".sidebar").animate({
                         left:'0'
                     });
+                    $(".menu_bar").animate({
+                       marginLeft:'25%'
+                    });
+                    $("button span i").removeClass('fa-arrow-right');
+                    $("button span i").addClass('fa-arrow-left');
+                    
+                    contador = 2;
                 }else{
-                    alert("OK2");
-                     $("sidebar").animate({
+                     $(".sidebar").animate({
                         left:'-100%'
                     });
+                    $(".menu_bar").animate({
+                        marginLeft: '0'
+                    });
+                    $("button span i").addClass('fa-arrow-right');                    
+                    $("button span i").removeClass('fa-arrow-left');
+                    
+                    contador = 1;
                 }
             }
     );

@@ -13,13 +13,14 @@
         <!--script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.5.2/holder.min.js"></script-->
 
         <!-- TOP -->
-        <ui:insert name="top">
-            <b:navBar brand="Mi consultorio" brandHref="#" inverse="true" fixed="top" fluid="true">                    
+        <ui:insert name="top">            
+            <b:button class="menu_bar btn-menu button" iconAwesome="arrow-right" look="primary"></b:button>
+            <b:navBar id="bar" brand="Mi consultorio" brandStyleClass="mybrand"  brandHref="#" inverse="true" fixed="top" fluid="true">                    
                 <b:navbarLinks pull="right">
-                    <b:navLink value="Inicio" href="#"></b:navLink>
-                    <b:navLink value="Configuracion" href="#"></b:navLink>
-                    <b:navLink value="Mi Cuenta" href="#"></b:navLink>
-                    <b:navLink value="Ayuda" href="#"></b:navLink>
+                    <b:navLink iconAwesome="home" value="Inicio" href="#"></b:navLink>
+                    <b:navLink iconAwesome="cogs" value="Configuracion" href="#"></b:navLink>
+                    <b:navLink iconAwesome="user" value="Mi cuenta" href="#"></b:navLink>
+                    <b:navLink iconAwesome="question-circle" value="Ayuda" href="#"></b:navLink>
                 </b:navbarLinks>
                 <!--h:form styleClass="navbar-form navbar-right">
                     <div class="form-group">
@@ -32,23 +33,18 @@
         <b:container fluid="true">
             <b:row>
                 <!-- LEFT -->
-                <ui:insert name="left">                    
-                    <b:container fluid="true" styleClass="no-padding">
-                        <div class="menu_bar">
-                            <b:link  iconAwesome="bars" href="#" class="btn-menu"></b:link>                            
-                        </div>
-                    </b:container>
+                <ui:insert name="left">                                        
                     <b:column>
                         <b:panel look="primary" collapsible="false" col-sm="3" col-md="4" styleClass="sidebar">                            
                             <div class="enlaces">
                                 <b:listLinks>
                                     <b:navLink header="Principal" />
-                                    <b:navLink href="../app/principal.softwareatumedida" value="Ir al inicio" icon="home" iconAlign="left"/>
+                                    <b:navLink href="../app/principal.softwareatumedida" value="Inicio" icon="home" iconAlign="left"/>
                                     <b:navLink></b:navLink>
                                     <b:navLink header="Usuario"/>
-                                    <b:navLink href="../app/usuario/alta.softwareatumedida" value="Nuevo" iconAwesome="user-plus"></b:navLink>
-                                    <b:navLink href="../app/usuario/baja.softwareatumedida" value="Baja" iconAwesome="user-times"></b:navLink>
-                                    <b:navLink href="../app/usuario/edit.softwareatumedida" value="Modificar" icon="edit"></b:navLink>
+                                    <b:navLink href="../app/usuario-alta.softwareatumedida" value="Nuevo" iconAwesome="user-plus"></b:navLink>
+                                    <b:navLink href="../app/usuario-baja.softwareatumedida" value="Baja" iconAwesome="user-times"></b:navLink>
+                                    <b:navLink href="../app/usuario-edit.softwareatumedida" value="Modificar" icon="edit"></b:navLink>
                                     <b:navLink header="Paciente"/>
                                     <b:navLink href="http://getbootstrap.com/components/#navbar" value="Nuevo" iconAwesome="user-plus"></b:navLink>
                                     <b:navLink href="http://getbootstrap.com/components/#navbar" value="Baja" iconAwesome="user-times"></b:navLink>
@@ -110,37 +106,37 @@
                     position: fixed;
                     top: 49px;
                     z-index: 1000;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 }
 
                 .menu_bar{
-                    display: block;
-                    width: 100%;
-                    float: right;
-                    background-color: #fff;
+                    display: block;                    
+                    text-align: center;                      
                 }
-                
-                .menu_bar .btn-menu{
+
+                .btn-menu{
                     display: block;
                     padding: 5px;
                     font-size: 25px;
                     height: 40px;
-                    background-color: #f5f5f5;
+                    /*background-color: #f5f5f5;*/
                     text-decoration: none;
                     -webkit-box-sizing:border-box;
                     -moz-box-sizing:border-box;
                     box-sizing: border-box;
+                    width: 10%;
+                    text-align: center;                    
                 }
-                
-                .menu_bar .btn-menu span{
-                    float: right;
-                    font-size: 25px;
-                    margin-right: 20px;
-                }
-                
+
+
+
                 .enlaces{
                     display: block;
                 }
 
+            }
+            #bar{
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             }
 
             @media (min-width: 765px) {
@@ -156,7 +152,11 @@
                     position: fixed;
                     top: 49px;
                     z-index: 1000;
-
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+                .menu_bar{
+                    display: block;                    
+                    text-align: center;                      
                 }
             }
             .nav-list {
@@ -198,7 +198,54 @@
                 border-radius: 50%;
                 display: inline-block;
             }
+            .button span i{
+                font-size: 30px;
+            }
+            .button {
+                z-index: 999;
+                width: 40px;
+                height: 40px;
+                border: none;
+                /*background: #c2dfef;                */
+                border-radius: 100%;
+                transition: all 0.5s ease-in-out;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                cursor: pointer;
+                text-align: center;
 
+            }
+            
+            .button:before{
+                position: absolute;
+                top: 20px;
+                left: 9px;
+                content: "";
+                width: 25px;
+                height: 2px;
+                background: #000000;
+                transform: rotate(90deg);                
+            }
+            .button:after{
+                position: absolute;
+                top: 20px;
+                left: 9px;
+                content: "";
+                width: 25px;
+                height: 2px;
+                background: #000000;
+            }
+            
+            /*header {
+                text-align: center;
+                text-transform: none;
+                color: rgb(255, 255, 255);
+                height: 64px;
+                line-height: 64px;
+                background: #42A5F5;
+                font-size: 20px;
+                font-weight: 500;
+                letter-spacing: 1px;
+            }*/
         </style>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
