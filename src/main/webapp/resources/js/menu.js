@@ -8,7 +8,7 @@ function main() {
                         left:'0'
                     });
                     $(".menu_bar").animate({
-                       marginLeft:'25%'
+                       marginLeft:'90%'
                     });
                     $("button span i").removeClass('fa-arrow-right');
                     $("button span i").addClass('fa-arrow-left');

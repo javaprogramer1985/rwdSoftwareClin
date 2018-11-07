@@ -15,12 +15,12 @@
         <!-- TOP -->
         <ui:insert name="top">            
             <b:button class="menu_bar btn-menu button" iconAwesome="arrow-right" look="primary"></b:button>
-            <b:navBar id="bar" brand="Mi consultorio" brandStyleClass="mybrand"  brandHref="#" inverse="true" fixed="top" fluid="true">                    
-                <b:navbarLinks pull="right">
-                    <b:navLink iconAwesome="home" value="Inicio" href="#"></b:navLink>
-                    <b:navLink iconAwesome="cogs" value="Configuracion" href="#"></b:navLink>
-                    <b:navLink iconAwesome="user" value="Mi cuenta" href="#"></b:navLink>
-                    <b:navLink iconAwesome="question-circle" value="Ayuda" href="#"></b:navLink>
+            <b:navBar  class="navstyleown" id="bar" brand="Mi consultorio" brandStyleClass="mybrand"  brandHref="#" inverse="true" fixed="top" fluid="true">                                    
+                <b:navbarLinks class="navbarlinkstyleown" pull="right">
+                    <b:navLink  contentClass="cnclass" iconAwesome="home" value="Inicio" href="#"></b:navLink>
+                    <b:navLink  contentClass="cnclass" iconAwesome="cogs" value="Configuracion" href="#"></b:navLink>
+                    <b:navLink  contentClass="cnclass" iconAwesome="user" value="Mi cuenta" href="#"></b:navLink>
+                    <b:navLink  contentClass="cnclass" iconAwesome="question-circle" value="Ayuda" href="#"></b:navLink>
                 </b:navbarLinks>
                 <!--h:form styleClass="navbar-form navbar-right">
                     <div class="form-group">
@@ -128,12 +128,9 @@
                     text-align: center;                    
                 }
 
-
-
                 .enlaces{
                     display: block;
-                }
-
+                }                
             }
             #bar{
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -153,12 +150,35 @@
                     top: 49px;
                     z-index: 1000;
                     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                }
-                .menu_bar{
-                    display: block;                    
-                    text-align: center;                      
-                }
+                }                
             }
+            .mybrand{
+                color: #fff !important;                    
+                font-size: 20px !important;                
+                letter-spacing: 1px !important;
+                height: 60px;
+
+            }
+            
+            .cnclass{
+                color: #fff !important;                    
+                font-size: 13px !important;                
+                letter-spacing: 1px !important;               
+                height: 60px;                
+            }            
+            .navstyleown{
+                background-color: #2196F3;
+                height: 60px;
+            }
+            
+            #bar ul li a{
+                padding: 20px;
+            }
+            
+            #bar a{
+                padding: 20px;
+            }
+            
             .nav-list {
                 margin-bottom: 20px;
                 margin-left: -20px;
@@ -166,7 +186,7 @@
             }
             .nav-list > li > a {
                 padding-left: 20px;
-                padding-right: 20px;
+                padding-right: 20px;                
             }
             .nav-list > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
                 background-color: #428bca;
@@ -214,7 +234,7 @@
                 text-align: center;
 
             }
-            
+
             .button:before{
                 position: absolute;
                 top: 20px;
@@ -234,7 +254,6 @@
                 height: 2px;
                 background: #000000;
             }
-            
             /*header {
                 text-align: center;
                 text-transform: none;
