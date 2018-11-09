@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
+
+            <ui:define name="content">
+                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
+                    <b:panel title="Alta de pacientes" collapsible="false" look="info">
+                        <b:form id="altaPacienteForm">
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteNombre}" id="nombrepaciente" label="Nombre:" placeholder="Paciente" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="nombrepaciente"/>
+                            <b:inputText value="#{expedienteControlador.expediente.pacientePApellido}" id="pacientePApellido" label="Primer apellido:" placeholder="Primer apellido" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacientePApellido"/>
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteSApellido}" id="pacienteSApellido" label="Segundo apellido:" placeholder="Segundo apellido" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacienteSApellido"/>
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteCurp}" id="pacienteCurp" label="CURP:" placeholder="CURP" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacienteCurp"/>
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteRFC}" id="pacienteRFC" label="RFC:" placeholder="RFC" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacienteRFC"/>
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteEmail}" id="pacienteEmail" label="E-Mail" placeholder="E-Mail" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacienteEmail"/>                            
+                            <b:datepicker value="#{expedienteControlador.expediente.pacienteLNacimiento}" id="PacienteFNacimiento" label="Fecha de nacimiento " placeholder="E-Mail" colMd="9" labelColMd="3" required="true" />                            
+                                                        
+                            <b:inputText value="#{expedienteControlador.expediente.pacienteSexo}" id="pacienteSexo" label="Sexo" placeholder="Sexo" colMd="9" labelColMd="3" 
+                                         ajax="true" autocomplete="false" update="@(.message)"/>
+                            <b:message for="pacienteSexo"/>                            
+                        </b:form>                        
+                    </b:panel>
+                </b:column>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
