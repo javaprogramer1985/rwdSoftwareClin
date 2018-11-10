@@ -12,35 +12,69 @@
                 <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
                     <b:panel title="Alta de pacientes" collapsible="false" look="info">
                         <b:form id="altaPacienteForm">
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteNombre}" id="nombrepaciente" label="Nombre:" placeholder="Paciente" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
+
+                            <b:panelGrid colSpans="6,6">
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteNombre}" id="nombrepaciente" label="Nombre:" placeholder="Paciente" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacientePApellido}" id="pacientePApellido" label="Primer apellido:" placeholder="Primer apellido" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteSApellido}" id="pacienteSApellido" label="Segundo apellido:" placeholder="Segundo apellido" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteCurp}" id="pacienteCurp" label="CURP:" placeholder="CURP" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteRFC}" id="pacienteRFC" label="RFC:" placeholder="RFC" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteEmail}" id="pacienteEmail" label="E-Mail" placeholder="E-Mail" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:datepicker value="#{expedienteControlador.expediente.pacienteFNacimiento}" 
+                                              id="PacienteFNacimiento" 
+                                              mode="popup" 
+                                              required="true" 
+                                              auto-update="" 
+                                              label="Fecha de nacimiento"
+                                              placeholder="Fecha de nacimiento">
+                                </b:datepicker>                                                            
+                                <b:switch value="#{expedienteControlador.expediente.pacienteSexo}" id="pacienteSexo" label="Sexo" on-text="M" off-text="F"/>                                
+                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteECivil}" id="pacienteECivil" label="Estado civil" placeholder="Estado civil" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteTelCel}" id="pacienteTelCel" label="Telefono celular" placeholder="Telefono celular" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteTelFijo}" id="pacienteTelFijo" label="Telefono fijo" placeholder="Telefono fijo" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteLNacimiento}" id="pacienteLNacimiento" label="Lugar de nacimiento" placeholder="Lugar de nacimiento" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expediente.pacienteRadica}" id="pacienteRadica" label="Donde radica" placeholder="Donde radica" required="true"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                            </b:panelGrid>
                             <b:message for="nombrepaciente"/>
-                            <b:inputText value="#{expedienteControlador.expediente.pacientePApellido}" id="pacientePApellido" label="Primer apellido:" placeholder="Primer apellido" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
                             <b:message for="pacientePApellido"/>
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteSApellido}" id="pacienteSApellido" label="Segundo apellido:" placeholder="Segundo apellido" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
                             <b:message for="pacienteSApellido"/>
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteCurp}" id="pacienteCurp" label="CURP:" placeholder="CURP" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
                             <b:message for="pacienteCurp"/>
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteRFC}" id="pacienteRFC" label="RFC:" placeholder="RFC" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
                             <b:message for="pacienteRFC"/>
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteEmail}" id="pacienteEmail" label="E-Mail" placeholder="E-Mail" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
                             <b:message for="pacienteEmail"/>                            
-                            <b:datepicker value="#{expedienteControlador.expediente.pacienteLNacimiento}" id="PacienteFNacimiento" label="Fecha de nacimiento " placeholder="E-Mail" colMd="9" labelColMd="3" required="true" />                            
-                                                        
-                            <b:inputText value="#{expedienteControlador.expediente.pacienteSexo}" id="pacienteSexo" label="Sexo" placeholder="Sexo" colMd="9" labelColMd="3" 
-                                         ajax="true" autocomplete="false" update="@(.message)"/>
-                            <b:message for="pacienteSexo"/>                            
+                            <b:message for="PacienteFNacimiento"/>
+                            <b:message for="pacienteSexo"/> 
+                            <b:message for="pacienteECivil"/>  
+                            <b:message for="pacienteTelCel"/>
+                            <b:message for="pacienteTelFijo"/>
+                            <b:message for="pacienteLNacimiento"/>
+                            <b:message for="pacienteRadica"/>
+                            <b:message />
+                            <b:panelGrid colSpans="2,2,2,2,2,2" style="padding: 10px !important">
+                                <b:commandButton look="primary"  iconAwesome="save" value="Crear expediente" colMd="12" onclick="ajax:expedienteControlador.nuevo()" update="@form"/>
+                                <b:button look="danger" iconAwesome="exclamation" value="Cancelar" colMd="12" />
+                            </b:panelGrid> 
                         </b:form>                        
                     </b:panel>
                 </b:column>
             </ui:define>
 
         </ui:composition>
-
+        <script src="https://jquery-ui.googlecode.com/svn-history/r3982/trunk/ui/i18n/jquery.ui.datepicker-es.js"></script>
     </body>
 </html>

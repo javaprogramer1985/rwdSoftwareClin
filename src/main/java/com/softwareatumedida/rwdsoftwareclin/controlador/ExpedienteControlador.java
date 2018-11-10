@@ -6,8 +6,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @RequestScoped
@@ -23,7 +25,15 @@ public class ExpedienteControlador implements Serializable{
     }
     
     public void nuevo(){
-        expedienteFacadeLocal.create(expediente);
+        try {
+            expedienteFacadeLocal.create(expediente);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
+            FacesContext.getCurrentInstance().addMessage("loginForm:password", msg);
+        } catch (Exception e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ocurrio un problema en el almacenamiento del expediente");
+            FacesContext.getCurrentInstance().addMessage("loginForm:password", msg);
+        }
+        
     }
     
     public void modificar(){
