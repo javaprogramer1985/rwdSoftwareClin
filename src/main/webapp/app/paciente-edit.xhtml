@@ -8,23 +8,31 @@
     <body>
 
         <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
-
             <ui:define name="content">
                 <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
-                    <h:form>
-                        <b:dataTable value="#{expedienteControlador.listaExpediente}" var="exp" class="editableCarTable">
-                            <b:dataTableColumn value="#{exp.pacienteId}" label="Clave"></b:dataTableColumn>
+                    <b:form id="formPaciente">
+                        <b:growl id="msgs" autoUpdate="true" showDetail="true"/>
+                        <b:dataTable customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json" 
+                                     value="#{expedienteControlador.listaExpediente}" 
+                                     var="exp" 
+                                     class="editableExpedienteTable"
+                                     selected-row="#{expedienteControlador.expedienteSeleccionado}"
+                                     select="true"
+                                     selectionMode="single"
+                                     responsive="true"
+                                     >
+                            
                             <b:dataTableColumn value="#{exp.pacienteNombre}" label="Nombre"></b:dataTableColumn>
                             <b:dataTableColumn value="#{exp.pacientePApellido}" label="Primer apellido"></b:dataTableColumn>
                             <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>                            
-                            <b:dataTableColumn label="Eliminar">
-                                <b:commandButton iconAwesome="trash" update="@(.editableCarTable)" action="#{expedienteControlador.eliminar}" />
+                            <b:dataTableColumn label="Eliminar">                                
+                                <b:commandButton look="danger"  iconAwesome="trash" onclick="ajax:expedienteControlador.eliminar(exp);" update="@form" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Modificar">
-                                <b:commandButton iconAwesome="edit" ajax="true" update="@(.editableCarTable)"/>
-                            </b:dataTableColumn>
+                                <b:commandButton look="info" iconAwesome="edit"/>
+                            </b:dataTableColumn>                            
                         </b:dataTable>
-                    </h:form>
+                    </b:form>
                 </b:column>
             </ui:define>
 
