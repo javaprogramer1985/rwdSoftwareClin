@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -10,7 +11,20 @@
 
             <ui:define name="content">
                 <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
-                    MODIFICACION DE PACIENTES
+                    <h:form>
+                        <b:dataTable value="#{expedienteControlador.listaExpediente}" var="exp" class="editableCarTable">
+                            <b:dataTableColumn value="#{exp.pacienteId}" label="Clave"></b:dataTableColumn>
+                            <b:dataTableColumn value="#{exp.pacienteNombre}" label="Nombre"></b:dataTableColumn>
+                            <b:dataTableColumn value="#{exp.pacientePApellido}" label="Primer apellido"></b:dataTableColumn>
+                            <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>                            
+                            <b:dataTableColumn label="Eliminar">
+                                <b:commandButton iconAwesome="trash" update="@(.editableCarTable)" action="#{expedienteControlador.eliminar}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Modificar">
+                                <b:commandButton iconAwesome="edit" ajax="true" update="@(.editableCarTable)"/>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>
                 </b:column>
             </ui:define>
 
