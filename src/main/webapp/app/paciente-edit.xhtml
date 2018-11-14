@@ -4,18 +4,46 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
 
         <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
             <ui:define name="content">
                 <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
-                    <b:form>                        
+                    <b:form id="formExpediente">
+                        <b:modal 
+                            title="Modificar datos generales del expediente" 
+                            styleClass="formEditExpediente" 
+                            closable="false" 
+                            closeOnEscape="false"
+                            size="modal-lg"
+                            >
+                            <b:form id="formExpedienteEdit">
+                                <b:panelGrid colSpans="6,6">
+                                    <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
+                                             id="nombrepaciente" 
+                                             label="Nombre:" 
+                                             placeholder="Paciente" 
+                                             required="true"
+                                             required-message="Su nombre es indispensable para ubicar el expediente."
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                    <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
+                                                 id="pacientePApellido" 
+                                                 label="Primer apellido:" 
+                                                 placeholder="Primer apellido" 
+                                                 required="true" 
+                                                 required-message="Sus apellidos son indispensables para ubicar el expediente."
+                                                 ajax="true" autocomplete="false" update="@(.message)"/> 
+                                </b:panelGrid>
+                            </b:form>
+                        </b:modal>
                         <b:dataTable customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json" 
                                      value="#{expedienteControlador.listaExpediente}" 
                                      var="exp" 
-                                     class="editableExpedienteTable"                                     
+                                     class="editableExpedienteTable" 
+                                     selected-row="#{expedienteControlador.expedienteSeleccionado}"
                                      select="true"
                                      selectionMode="single"
                                      responsive="true"
@@ -32,11 +60,11 @@
                                     update="@form" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Modificar">
-                                <b:commandButton look="info" iconAwesome="edit"/>
+                                <b:commandButton look="info" iconAwesome="edit" onclick="$('.formEditExpediente').modal()" update="@form"/>
                             </b:dataTableColumn>                            
                         </b:dataTable>
                         <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="1000"/> 
-                    </b:form>
+                    </b:form>                    
                 </b:column>
             </ui:define>
 

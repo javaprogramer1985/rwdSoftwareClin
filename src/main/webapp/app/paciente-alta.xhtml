@@ -59,7 +59,7 @@
                                 <b:inputText value="#{expedienteControlador.expediente.pacienteRadica}" id="pacienteRadica" label="Donde radica" placeholder="Donde radica"
                                              ajax="true" autocomplete="false" update="@(.message)"/>                                
                             </b:panelGrid>
-                            <b:message for="nombrepaciente"/>
+<!--                            <b:message for="nombrepaciente"/>
                             <b:message for="pacientePApellido"/>
                             <b:message for="pacienteSApellido"/>
                             <b:message for="pacienteCurp"/>
@@ -72,7 +72,8 @@
                             <b:message for="pacienteTelFijo"/>
                             <b:message for="pacienteLNacimiento"/>
                             <b:message for="pacienteRadica"/>
-                            <b:message />
+                            <b:message />-->
+                            <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="1000"/> 
                             <b:panelGrid columns="2" size="lg" style="padding: 10px !important">
                                 <b:commandButton look="primary"  iconAwesome="save" value="Crear expediente" colMd="12" onclick="ajax:expedienteControlador.nuevo()" update="@form"/>
                                 <b:button look="danger" iconAwesome="exclamation" value="Cancelar" colMd="12" />

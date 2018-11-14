@@ -34,17 +34,21 @@ public class ExpedienteControlador implements Serializable {
     public void nuevo() {
         try {
             expedienteFacadeLocal.create(expediente);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
-            FacesContext.getCurrentInstance().addMessage("altaPacienteForm:pacienteRadica", msg);
+            FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ocurrio un problema en el almacenamiento del expediente");
-            FacesContext.getCurrentInstance().addMessage("altaPacienteForm:pacienteRadica", msg);
+            FacesMessages.error("Error ", "Ocurrio un problema en el almacenamiento del expediente");
         }
 
     }
 
     public void modificar() {
-        expedienteFacadeLocal.edit(expediente);
+        try {
+            expedienteFacadeLocal.edit(expediente);
+            FacesMessages.info("Aviso ", "Se modifico el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
+        } catch (Exception e) {
+            FacesMessages.error("Error ", "Ocurrio un problema en modificación del expediente");
+        }
+        
     }
 
     public void eliminar(Expediente expe) {
@@ -53,7 +57,7 @@ public class ExpedienteControlador implements Serializable {
             listar();
             FacesMessages.info("Aviso", "¡Se elimino el registro correctamente!");
         } catch (Exception e) {
-            FacesMessages.error("Error", "¡Ocurrio un error al tratar de eliminar el registro!");
+            FacesMessages.error("Error ", "¡Ocurrio un error al tratar de eliminar el registro!");
         }
     }
 
