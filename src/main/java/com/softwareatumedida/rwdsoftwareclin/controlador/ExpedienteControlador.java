@@ -3,6 +3,8 @@ package com.softwareatumedida.rwdsoftwareclin.controlador;
 import com.softwareatumedida.rwdsoftwareclin.ejb.ExpedienteFacadeLocal;
 import com.softwareatumedida.rwdsoftwareclin.entity.Expediente;
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
@@ -28,6 +30,7 @@ public class ExpedienteControlador implements Serializable {
     public void init() {
         expediente = new Expediente();
         expedienteSeleccionado = new Expediente();
+        listaExpedienteSelect=new ArrayList<>();
         listar();
     }
 
@@ -43,7 +46,7 @@ public class ExpedienteControlador implements Serializable {
 
     public void modificar() {
         try {
-            expedienteFacadeLocal.edit(expediente);
+            expedienteFacadeLocal.edit(expedienteSeleccionado);
             FacesMessages.info("Aviso ", "Se modifico el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
         } catch (Exception e) {
             FacesMessages.error("Error ", "Ocurrio un problema en modificación del expediente");
@@ -95,18 +98,19 @@ public class ExpedienteControlador implements Serializable {
 
     public void onSelect(Expediente expediente, String typeOfSelection, String indexes) {
         System.out.println("OnSelect:" + expediente + " typeOfSelection: " + typeOfSelection + " indexes: " + indexes);
-        if (null != expediente) {
-            getCurrentlySelectedExpedientes().add(expediente);
-        } else if (null != indexes) {
-            String[] indexArray = indexes.split(",");
-            for (String index : indexArray) {
-                int i = Integer.valueOf(index);
-                Expediente newCar = listaExpediente.get(i);
-                if (!listaExpedienteSelect.contains(newCar)) {
-                    getCurrentlySelectedExpedientes().add(newCar);
-                }
-            }
-        }
+        expedienteSeleccionado = expediente;
+//        if (null != expediente) {
+//            getCurrentlySelectedExpedientes().add(expediente);
+//        } else if (null != indexes) {
+//            String[] indexArray = indexes.split(",");
+//            for (String index : indexArray) {
+//                int i = Integer.valueOf(index);
+//                Expediente newExp = listaExpediente.get(i);
+//                if (!listaExpedienteSelect.contains(newExp)) {
+//                    getCurrentlySelectedExpedientes().add(newExp);
+//                }
+//            }
+//        }
     }
 
 }

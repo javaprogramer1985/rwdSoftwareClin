@@ -11,42 +11,17 @@
 
         <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
             <ui:define name="content">
-                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
-                    <b:form id="formExpediente">
-                        <b:modal 
-                            title="Modificar datos generales del expediente" 
-                            styleClass="formEditExpediente" 
-                            closable="false" 
-                            closeOnEscape="false"
-                            size="modal-lg"
-                            >
-                            <b:form id="formExpedienteEdit">
-                                <b:panelGrid colSpans="6,6">
-                                    <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
-                                             id="nombrepaciente" 
-                                             label="Nombre:" 
-                                             placeholder="Paciente" 
-                                             required="true"
-                                             required-message="Su nombre es indispensable para ubicar el expediente."
-                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
-                                    <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
-                                                 id="pacientePApellido" 
-                                                 label="Primer apellido:" 
-                                                 placeholder="Primer apellido" 
-                                                 required="true" 
-                                                 required-message="Sus apellidos son indispensables para ubicar el expediente."
-                                                 ajax="true" autocomplete="false" update="@(.message)"/> 
-                                </b:panelGrid>
-                            </b:form>
-                        </b:modal>
+                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">                    
+                    <b:form id="formExpediente" styleClass="formExpedienteClass">                        
                         <b:dataTable customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json" 
                                      value="#{expedienteControlador.listaExpediente}" 
                                      var="exp" 
                                      class="editableExpedienteTable" 
-                                     selected-row="#{expedienteControlador.expedienteSeleccionado}"
+                                     onselect="ajax:expedienteControlador.onSelect(exp, typeOfSelection, indexes)"
                                      select="true"
                                      selectionMode="single"
                                      responsive="true"
+                                     widgetVar="datosexpediente"
                                      >
 
                             <b:dataTableColumn value="#{exp.pacienteNombre}" label="Nombre"></b:dataTableColumn>
@@ -60,11 +35,72 @@
                                     update="@form" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Modificar">
-                                <b:commandButton look="info" iconAwesome="edit" onclick="$('.formEditExpediente').modal()" update="@form"/>
+                                <b:button look="info" iconAwesome="edit" onclick="$('.formValidationModalClass').modal('show')"/>
                             </b:dataTableColumn>                            
                         </b:dataTable>
-                        <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="1000"/> 
-                    </b:form>                    
+                        <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="10000"/> 
+                    </b:form>
+                    <b:modal 
+                        title="Modificar datos generales del expediente" 
+                        styleClass="formValidationModalClass" 
+                        closable="false" 
+                        closeOnEscape="true"                        
+                        size="modal-lg"
+                        backdrop="false"                        
+                        >
+                        <b:form styleClass="formExpedienteEditClass" autoUpdate="true">
+                            <b:panelGrid colSpans="6,6">
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
+                                             id="nombrepaciente" 
+                                             label="Nombre:" 
+                                             placeholder="Paciente" 
+                                             required="true"
+                                             required-message="Su nombre es indispensable para ubicar el expediente."
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacientePApellido}" id="pacientePApellido" label="Primer apellido:" placeholder="Primer apellido" 
+                                             required="true" required-message="Sus apellidos son indispensables para ubicar el expediente."
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteSApellido}" id="pacienteSApellido" label="Segundo apellido:" placeholder="Segundo apellido" 
+                                             required="true" required-message="Sus apellidos son indispensables para ubicar el expediente."
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteCurp}" id="pacienteCurp" label="CURP:" placeholder="CURP" 
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRFC}" id="pacienteRFC" label="RFC:" placeholder="RFC" 
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteEmail}" id="pacienteEmail" label="E-Mail" placeholder="E-Mail"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                <b:datepicker value="#{expedienteControlador.expedienteSeleccionado.pacienteFNacimiento}" 
+                                              id="PacienteFNacimiento" 
+                                              mode="popup" 
+                                              required="true"
+                                              required-message="La fecha de nacimiento es para indicar la edad en las recetas."
+                                              auto-update="" 
+                                              label="Fecha de nacimiento"
+                                              placeholder="Fecha de nacimiento">
+                                </b:datepicker>                                                            
+                                <b:switch value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}" id="pacienteSexo" label="Sexo" on-text="M" off-text="F"/>                                
+                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteECivil}" id="pacienteECivil" label="Estado civil" placeholder="Estado civil" 
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelCel}" id="pacienteTelCel" label="Telefono celular" placeholder="Telefono celular"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                
+                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelFijo}" id="pacienteTelFijo" label="Telefono fijo" placeholder="Telefono fijo"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteLNacimiento}" id="pacienteLNacimiento" label="Lugar de nacimiento" placeholder="Lugar de nacimiento"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>
+                                
+                                <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRadica}" id="pacienteRadica" label="Donde radica" placeholder="Donde radica"
+                                             ajax="true" autocomplete="false" update="@(.message)"/>                                  
+                            </b:panelGrid>
+                            <b:panelGrid columns="2" size="lg" style="padding: 10px !important">
+                                <b:commandButton look="primary"  iconAwesome="edit" value="Guardar" colMd="12" onclick="ajax:expedienteControlador.modificar()" update="@form"/>
+                                <b:button look="danger" iconAwesome="exclamation" value="Cancelar" colMd="12" />
+                            </b:panelGrid> 
+                        </b:form>
+                    </b:modal>                    
                 </b:column>
             </ui:define>
 
