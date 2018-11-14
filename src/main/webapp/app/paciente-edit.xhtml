@@ -6,12 +6,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-    <body>
+    <h:body>
 
         <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
             <ui:define name="content">
                 <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main">
-                    <b:form id="formPaciente">                        
+                    <b:form>                        
                         <b:dataTable customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json" 
                                      value="#{expedienteControlador.listaExpediente}" 
                                      var="exp" 
@@ -25,20 +25,22 @@
                             <b:dataTableColumn value="#{exp.pacientePApellido}" label="Primer apellido"></b:dataTableColumn>
                             <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>                            
                             <b:dataTableColumn label="Eliminar">                                
-                                <b:commandButton icon="trash" actionListener="#{expedienteControlador.eliminar(exp)}" update="@form" />
+                                <b:commandButton 
+                                    icon="trash" 
+                                    look="danger"
+                                    actionListener="#{expedienteControlador.eliminar(exp)}" 
+                                    update="@form" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Modificar">
                                 <b:commandButton look="info" iconAwesome="edit"/>
                             </b:dataTableColumn>                            
                         </b:dataTable>
-                        <b:growl id="growlMsg" globalOnly="true"
-                                 show-detail="true" show-summary="true" allowDismiss="true"
-                                 delay="10000" timer="100000000" /> 
+                        <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="1000"/> 
                     </b:form>
                 </b:column>
             </ui:define>
 
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>

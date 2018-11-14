@@ -47,21 +47,14 @@ public class ExpedienteControlador implements Serializable {
         expedienteFacadeLocal.edit(expediente);
     }
 
-    public void eliminar(Expediente expe) {   
-//        try {
-//            expedienteFacadeLocal.remove(expe);
-//            listar();
-//            FacesMessage msg = new FacesMessage("Aviso", "Se elimino el expediente de " + expe.getPacienteNombre() + " " + expe.getPacientePApellido() + " " + expe.getPacienteSApellido());
-//            FacesContext.getCurrentInstance().addMessage("formPaciente:message", msg);
-//        } catch (Exception e) {
-//            FacesMessage msg = new FacesMessage("Aviso", "Ocurrio un problema en el almacenamiento del expediente");           
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//           
-//        }
-
-        FacesMessages.info("Info", "This is a specific message!");
-//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ocurrio un problema en el almacenamiento del expediente");
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
+    public void eliminar(Expediente expe) {
+        try {
+            expedienteFacadeLocal.remove(expe);
+            listar();
+            FacesMessages.info("Aviso", "¡Se elimino el registro correctamente!");
+        } catch (Exception e) {
+            FacesMessages.error("Error", "¡Ocurrio un error al tratar de eliminar el registro!");
+        }
     }
 
     public void listar() {
@@ -92,7 +85,6 @@ public class ExpedienteControlador implements Serializable {
         this.expedienteSeleccionado = expedienteSeleccionado;
     }
 
-    
     public List<Expediente> getCurrentlySelectedExpedientes() {
         return listaExpedienteSelect;
     }
