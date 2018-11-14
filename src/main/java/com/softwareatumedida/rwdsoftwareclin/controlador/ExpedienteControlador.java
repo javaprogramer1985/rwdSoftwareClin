@@ -11,11 +11,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import net.bootsfaces.utils.FacesMessages;
 
-@Named
-@ViewScoped
+@ManagedBean
+@RequestScoped
 public class ExpedienteControlador implements Serializable {
 
     @EJB
@@ -59,9 +58,10 @@ public class ExpedienteControlador implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, msg);
 //           
 //        }
-        FacesMessage msg = new FacesMessage("Aviso", "Ocurrio un problema en el almacenamiento del expediente");           
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+        FacesMessages.info("Info", "This is a specific message!");
+//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ocurrio un problema en el almacenamiento del expediente");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void listar() {
