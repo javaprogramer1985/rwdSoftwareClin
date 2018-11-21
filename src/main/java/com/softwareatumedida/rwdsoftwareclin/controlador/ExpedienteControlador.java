@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
 @ManagedBean
@@ -25,12 +26,15 @@ public class ExpedienteControlador implements Serializable {
     List<Expediente> listaExpediente;
     List<Expediente> listaExpedienteSelect;
     Expediente expedienteSeleccionado;
+    
+    boolean mostrarPanel;
 
     @PostConstruct
     public void init() {
         expediente = new Expediente();
         expedienteSeleccionado = new Expediente();
         listaExpedienteSelect=new ArrayList<>();
+        mostrarPanel = false;
         listar();
     }
 
@@ -92,10 +96,22 @@ public class ExpedienteControlador implements Serializable {
         this.expedienteSeleccionado = expedienteSeleccionado;
     }
 
+    public boolean isMostrarPanel() {
+        return mostrarPanel;
+    }
+
+    public void setMostrarPanel(boolean mostrarPanel) {
+        this.mostrarPanel = mostrarPanel;
+    }
+
+    
     public List<Expediente> getCurrentlySelectedExpedientes() {
         return listaExpedienteSelect;
     }
 
+    public void toggle(ActionEvent event){
+        mostrarPanel = false;        
+    }
     public void onSelect(Expediente expediente, String typeOfSelection, String indexes) {
         System.out.println("OnSelect:" + expediente + " typeOfSelection: " + typeOfSelection + " indexes: " + indexes);
         expedienteSeleccionado = expediente;

@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -42,7 +43,11 @@
                                               label="Fecha de nacimiento"
                                               placeholder="Fecha de nacimiento">
                                 </b:datepicker>                                                            
-                                <b:switch value="#{expedienteControlador.expediente.pacienteSexo}" id="pacienteSexo" label="Sexo" on-text="M" off-text="F"/>                                
+                                
+                                <b:selectOneMenu value="#{expedienteControlador.expediente.pacienteSexo}" label="Sexo">                                   
+                                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                    <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                </b:selectOneMenu>
                                 
                                 <b:inputText value="#{expedienteControlador.expediente.pacienteECivil}" id="pacienteECivil" label="Estado civil" placeholder="Estado civil" 
                                              ajax="true" autocomplete="false" update="@(.message)"/>
