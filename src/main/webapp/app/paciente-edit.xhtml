@@ -27,7 +27,15 @@
 
                                         <b:dataTableColumn value="#{exp.pacienteNombre}" label="Nombre"></b:dataTableColumn>
                                         <b:dataTableColumn value="#{exp.pacientePApellido}" label="Primer apellido"></b:dataTableColumn>
-                                        <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>                                                                    
+                                        <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>
+
+                                        <b:dataTableColumn label="Eliminar">                                
+                                            <b:commandButton 
+                                                icon="trash" 
+                                                look="danger"
+                                                actionListener="#{expedienteControlador.eliminar(exp)}" 
+                                                update="@form" />
+                                        </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>                            
                                 <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="10000"/> 
@@ -65,7 +73,7 @@
                                                       label="Fecha de nacimiento"
                                                       placeholder="Fecha de nacimiento">
                                         </b:datepicker>                                                            
-                                        <b:selectOneMenu value="#{expedienteControlador.expediente.pacienteSexo}" label="Sexo">                                   
+                                        <b:selectOneMenu value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}" label="Sexo">                                   
                                             <f:selectItem itemLabel="Masculino" itemValue="M"/>
                                             <f:selectItem itemLabel="Femenino" itemValue="F"/>
                                         </b:selectOneMenu>
@@ -86,10 +94,11 @@
                                                      ajax="true" autocomplete="false" update="@(.message)"/> 
                                     </b:panelGrid>
                                     <b:panelGrid columns="2" size="lg" style="padding: 10px !important">
-                                        <b:commandButton look="primary"  iconAwesome="edit" value="Guardar" colMd="12" action="#{expedienteControlador.modificar}" update="@form"/>
+                                        <b:commandButton look="primary"  iconAwesome="edit" value="Modificar" colMd="12" actionListener="#{expedienteControlador.modificar}" update="@form"/>
                                         <b:button look="danger" iconAwesome="exclamation" value="Cancelar" colMd="12" />
                                     </b:panelGrid>
                                 </b:panel>
+                                <b:growl id="growlMsg1" show-detail="true" show-summary="true" delay="10000"/> 
                             </b:form>
                         </h:panelGroup>
                     </b:panelGrid>

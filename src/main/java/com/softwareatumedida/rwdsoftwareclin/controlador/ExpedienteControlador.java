@@ -12,12 +12,13 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ExpedienteControlador implements Serializable {
 
     @EJB
@@ -51,9 +52,10 @@ public class ExpedienteControlador implements Serializable {
     public void modificar() {
         try {
             expedienteFacadeLocal.edit(expedienteSeleccionado);
-            FacesMessages.info("Aviso ", "Se modifico el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
+            expedienteSeleccionado.getPacienteSexo();
+            FacesMessages.info("Aviso ", "se modifico el expediente de " + expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido());
         } catch (Exception e) {
-            FacesMessages.error("Error ", "Ocurrio un problema en modificación del expediente");
+            FacesMessages.error("Error ", "ocurrio un problema en modificación del expediente");
         }
         
     }
