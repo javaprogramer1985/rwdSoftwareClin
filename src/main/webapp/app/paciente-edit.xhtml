@@ -14,9 +14,20 @@
                     <b:panelGrid colSpans="6,6">
                         <h:panelGroup id="panel1">                        
                             <b:form id="form1">
-                                <b:panel id="formPanel1" collapsed="true" collapsible="false" title="EXPEDIENTES" look="primary">
+                                <!--b:poll interval="3000" 
+                                        update="dataTableExpedientes"
+                                        actionListener="{expedienteControlador.listar()}"/-->
+                                <b:panel 
+                                    id="formPanel1" 
+                                    collapsed="true" 
+                                    collapsible="false" 
+                                    title="EXPEDIENTES" 
+                                    look="primary"
+                                    
+                                    >
                                     <b:dataTable  
                                         value="#{expedienteControlador.listaExpediente}" 
+                                        id="dataTableExpedientes"
                                         var="exp" 
                                         class="editableExpedienteTable" 
                                         onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:expedienteControlador.onSelect(exp, typeOfSelection, indexes)"
@@ -38,12 +49,18 @@
                                         </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>                            
-                                <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="10000"/> 
+                                <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="3000"/> 
                             </b:form>
                         </h:panelGroup>
                         <h:panelGroup id="panel2">
                             <b:form id="form2">
-                                <b:panel id="formPanel2" collapsed="true" collapsible="false" title="DATOS EXPEDIENTES" autoUpdate="true" look="primary">
+                                <b:panel 
+                                    id="formPanel2" 
+                                    collapsed="true" 
+                                    collapsible="false" 
+                                    title="DATOS EXPEDIENTES" 
+                                    autoUpdate="true"
+                                    look="primary">
                                     <b:panelGrid colSpans="6,6" autoUpdate="true">                                
                                         <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
                                                      id="nombrepaciente" 
@@ -94,11 +111,11 @@
                                                      ajax="true" autocomplete="false" update="@(.message)"/> 
                                     </b:panelGrid>
                                     <b:panelGrid columns="2" size="lg" style="padding: 10px !important">
-                                        <b:commandButton look="primary"  iconAwesome="edit" value="Modificar" colMd="12" actionListener="#{expedienteControlador.modificar}" update="@form"/>
+                                        <b:commandButton look="primary"  iconAwesome="edit" value="Modificar" colMd="12" actionListener="#{expedienteControlador.modificar}" update=":panel1 :form1"/>
                                         <b:button look="danger" iconAwesome="exclamation" value="Cancelar" colMd="12" />
                                     </b:panelGrid>
                                 </b:panel>
-                                <b:growl id="growlMsg1" show-detail="true" show-summary="true" delay="10000"/> 
+                                <b:growl id="growlMsg1" show-detail="true" show-summary="true" delay="3000"/> 
                             </b:form>
                         </h:panelGroup>
                     </b:panelGrid>
