@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"      
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <b:panel title="Ejemplo">
+            <h:form>
+                <b:dataTable value="#{carPool.carPool}"
+                             var="car"
+                             onorder="console.log('order');"
+                             onpage="console.log('page');"
+                             onsearch="console.log('search');"
+                             onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:carPool.onSelect(car, typeOfSelection, indexes);"
+                             ondeselect="console.log(typeOfSelection + ' ' + indexes + ' has been deselected');ajax:carPool.onDeselect(car, typeOfSelection, indexes);"
+                             select="true"
+                             selectionMode="multiple"
+                             >
+                    <b:dataTableColumn value="#{car.brand}" />
+                    <b:dataTableColumn value="#{car.type}" />
+                    <b:dataTableColumn value="#{car.color}" />
+                    <b:dataTableColumn value="#{car.year}" />
+                    <b:dataTableColumn value="#{car.price}" />
+                    <b:dataTableColumn value="#{car.enginePower}" label="Engine Power (hp)" />
+                </b:dataTable>
+            </h:form>
+        </b:panel>
+    </h:body>
+</html>

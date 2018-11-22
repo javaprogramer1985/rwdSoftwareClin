@@ -113,7 +113,7 @@ public class ExpedienteControlador implements Serializable {
         mostrarPanel = false;        
     }
     public void onSelect(Expediente expediente, String typeOfSelection, String indexes) {
-        System.out.println("OnSelect:" + expediente + " typeOfSelection: " + typeOfSelection + " indexes: " + indexes);
+        System.out.println("OnSelect:" + expediente);
         expedienteSeleccionado = expediente;
 //        if (null != expediente) {
 //            getCurrentlySelectedExpedientes().add(expediente);
