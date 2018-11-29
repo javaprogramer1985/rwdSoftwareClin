@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <style type="text/css">
+            .value {
+                font-weight: bold;
+            }
+
+            .ui-datatable {
+                margin-bottom: 25px
+            }
+
+            .ui-datatable .ui-datatable-footer {
+                text-align:left;
+            }
+
+            .ui-datalist ul {
+                padding: 0 0 0 10px;
+                margin: 5px 0;
+            }
+
+            .ui-datatable .ui-button-icon-only .ui-button-text {
+                padding: 0;
+                line-height: 1.2;
+            }
+        </style>
+
+        <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
+            <ui:define name="content">
+                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main"> 
+                    <h:form>
+                        <b:growl id="messages" showDetail="true"/>
+                        <b:panel title="EXPEDIENTES" look="info" collapsed="true" collapsible="false">
+                            <p:dataTable 
+                                id="singleDT"
+                                var="expediente"
+                                paginator="true"
+                                value="#{expedienteControlador.listaExpediente}"
+                                reflow="true" 
+                                rows="10" 
+                                selectionMode="single" 
+                                selection="#{expedienteControlador.expedienteSeleccionado}" 
+                                rowKey="#{expediente.pacienteId}"  
+                                widgetVar="expedientesTable"
+                                filteredValue="#{expedienteControlador.expedientesFiltrados}"
+                                emptyMessage="No se encontraron coincidencias"
+                                >
+                                <f:facet name="header">
+                                    <p:outputPanel style="text-align: left" styleClass="label,value">
+                                        <h:outputText value="Busqueda general: "/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('expedientesTable').filter()" placeholder="Ingrese sus parametros"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                
+                                <p:column  filterBy="#{expediente.pacienteNombre}" headerText="Nombre">
+                                    <h:outputText value="#{expediente.pacienteNombre}"/>
+                                </p:column> 
+                                <p:column filterBy="#{expediente.pacientePApellido}" headerText="Primer apellido">
+                                    <h:outputText value="#{expediente.pacientePApellido}"/>
+                                </p:column>
+                                <p:column filterBy="#{expediente.pacienteSApellido}" headerText="Segundo apellido">
+                                    <h:outputText value="#{expediente.pacienteSApellido}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:tooltip id="toolTipVer" for="tipver" value="Ver el registro seleccionado" position="top"/>
+                                    <p:commandButton id="tipver" process="singleDT" update="@form:detalleExpediente, @form:dialogView" icon="fa fa-eye"  oncomplete="$('.modalView').modal()"  actionListener="#{expedienteControlador.verHeader()}"/>
+
+                                    <p:tooltip id="toolTipEliminar" for="tipEliminar" value="Eliminar el registro seleccionado" position="top"/>
+                                    <p:commandButton id="tipEliminar" process="singleDT" update="@form:detalleExpediente, @form:dialogView" icon="fa fa-trash" oncomplete="$('.modalView').modal()" actionListener="#{expedienteControlador.eliminarHeader()}"/>
+
+                                    <p:tooltip id="toolTipModificar" for="tipModificar" value="Modificar el expediente seleccionado" position="top"/>
+                                    <p:commandButton id="tipModificar" process="singleDT" update="@form:datosModificarExpediente, @form:dialogModificar" icon="fa fa-edit" oncomplete="$('.modificarExpediente').modal()" actionListener="#{expedienteControlador.modificarHeader()}"/>
+
+                                    <p:tooltip id="toolTipNuevo" for="tipNuevo" value="Ingresar un nuevo expediente" position="top"/>
+                                    <p:commandButton id="tipNuevo" process="singleDT" update="@form:detalleExpediente, @form:dialogNew" icon="fa fa-plus" oncomplete="$('.nuevoExpediente').modal()" actionListener="#{expedienteControlador.nuevoHeader()}"/>
+                                </f:facet>
+                            </p:dataTable>
+                            <b:modal
+                                id="dialogView"
+                                title="#{expedienteControlador.titleHeader}"
+                                styleClass="modalView"
+                                >
+                                <p:outputPanel
+                                    id="detalleExpediente"                                    
+                                    >
+                                    <b:panelGrid
+                                        colSpans="5,7"
+                                        rendered="#{not empty expedienteControlador.expedienteSeleccionado}"     
+                                        >
+
+                                        <h:outputText value="Nombre: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" class="ui-g-12"/>
+                                        <h:outputText value="Primer apellido: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacientePApellido}" class="ui-g-12"/>
+                                        <h:outputText value="Segundo apellido: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteSApellido}" class="ui-g-12"/>
+
+                                        <h:outputText value="CURP: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteCurp}" class="ui-g-12"/>
+                                        <h:outputText value="RFC: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRFC}" class="ui-g-12"/>
+                                        <h:outputText value="Email: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteEmail}" class="ui-g-12"/>
+                                        <h:outputText value="Sexo: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}" class="ui-g-12"/>
+                                        <h:outputText value="Estado civil: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteECivil}" class="ui-g-12"/>
+                                        <h:outputText value="Telefono celular: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelCel}" class="ui-g-12"/>
+                                        <h:outputText value="Telefono fijo: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelFijo}" class="ui-g-12"/>
+                                        <h:outputText value="Lugar de nacimiento: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteLNacimiento}" class="ui-g-12"/>
+                                        <h:outputText value="Donde radica: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRadica}" class="ui-g-12"/>
+                                        <h:outputText value="Alta del expediente: " class="ui-g-12" style="font-weight: bold"/>
+                                        <h:outputText value="#{expedienteControlador.expedienteSeleccionado.expedienteFecAlta}" class="ui-g-12"/>                                        
+                                    </b:panelGrid>
+                                    <b:panelGrid colSpans="12">
+                                        <p:commandButton  value="Eliminar" rendered="#{expedienteControlador.botonEliminar}" actionListener="#{expedienteControlador.eliminar()}" oncomplete="$('.modalView').modal('hide')" update="@form:singleDT, @form:messages" class="ui-g-12"/>
+                                    </b:panelGrid>
+                                </p:outputPanel>
+                            </b:modal>
+
+                            <b:modal
+                                id="dialogNew"
+                                title="#{expedienteControlador.titleHeader}"
+                                styleClass="nuevoExpediente"                                
+                                >
+                                <p:outputPanel 
+                                    id="datosNuevoExpediente"
+                                    >
+                                    <b:panelGrid colSpans="5,7">
+
+                                        <h:outputLabel value="Nombre: " for="pacienteNombre" class="ui-g-12"/>
+                                        <p:inputText id="pacienteNombre" value="#{expedienteControlador.expediente.pacienteNombre}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Primer apellido: " for="pacientePApellido" class="ui-g-12"/>
+                                        <p:inputText id="pacientePApellido" value="#{expedienteControlador.expediente.pacientePApellido}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Segundo apellido: " for="pacienteSApellido" class="ui-g-12"/>
+                                        <p:inputText id="pacienteSApellido" value="#{expedienteControlador.expediente.pacienteSApellido}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="CURP: " for="pacienteCurp" class="ui-g-12"/>
+                                        <p:inputText id="pacienteCurp" value="#{expedienteControlador.expediente.pacienteCurp}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="RFC: " for="pacienteRFC" class="ui-g-12"/>
+                                        <p:inputText id="pacienteRFC" value="#{expedienteControlador.expediente.pacienteRFC}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Email: " for="pacienteEmail" class="ui-g-12"/>
+                                        <p:inputText id="pacienteEmail" value="#{expedienteControlador.expediente.pacienteEmail}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Sexo: " for="pacienteSexo" class="ui-g-12"/>
+                                        <p:selectOneMenu id="pacienteSexo" value="#{expedienteControlador.expediente.pacienteSexo}" class="ui-g-12" style="margin-bottom: 5px;">
+                                            <f:selectItem itemLabel="MASCULINO" itemValue="MASCULINO" />
+                                            <f:selectItem itemLabel="FEMENINO" itemValue="FEMENINO" />
+                                        </p:selectOneMenu>                                        
+
+                                        <h:outputLabel value="Estado civil: " for="pacienteECivil" class="ui-g-12"/>
+                                        <p:selectOneMenu id="pacienteECivil" value="#{expedienteControlador.expediente.pacienteECivil}" class="ui-g-12" style="margin-bottom: 5px;">
+                                            <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
+                                            <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Fecha de nacimiento: " for="pacienteFNacimiento" class="ui-g-12"/>
+                                        <p:calendar id="pacienteFNacimiento" value="#{expedienteControlador.expediente.pacienteFNacimiento}" showOn="button" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Telefono celular: " for="pacienteTelCel" class="ui-g-12"/>
+                                        <p:inputText id="pacienteTelCel" value="#{expedienteControlador.expediente.pacienteTelCel}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Telefono fijo: " for="pacienteTelFijo" class="ui-g-12"/>
+                                        <p:inputText id="pacienteTelFijo" value="#{expedienteControlador.expediente.pacienteTelFijo}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Lugar de nacimiento: " for="pacienteLNacimiento" class="ui-g-12"/>
+                                        <p:inputText id="pacienteLNacimiento" value="#{expedienteControlador.expediente.pacienteLNacimiento}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Donde radica: " for="pacienteRadica" class="ui-g-12"/>
+                                        <p:inputText id="pacienteRadica" value="#{expedienteControlador.expediente.pacienteRadica}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Alta del expediente: " for="expedienteFecAlta" class="ui-g-12"/>
+                                        <p:inputText id="expedienteFecAlta"  disabled="true" value="#{expedienteControlador.expediente.expedienteFecAlta}" class="ui-g-12" style="font-weight: bold"/>
+                                    </b:panelGrid>
+                                    <div style="margin: 15px;"/>
+                                    <b:panelGrid colSpans="12">
+                                        <p:commandButton value="Guardar" rendered="#{expedienteControlador.botonGuardar}" actionListener="#{expedienteControlador.nuevo()}" oncomplete="$('.nuevoExpediente').modal('hide')" update="@form:singleDT, @form:messages" class="ui-g-12"/>
+                                    </b:panelGrid>
+                                </p:outputPanel>
+                            </b:modal>
+
+                            <b:modal
+                                id="dialogModificar"
+                                title="#{expedienteControlador.titleHeader}"
+                                styleClass="modificarExpediente"  
+                                >
+                                <p:outputPanel 
+                                    id="datosModificarExpediente"
+                                    >
+                                    <b:panelGrid colSpans="5,7">
+
+                                        <h:outputLabel value="Nombre: " for="pacienteNombreModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteNombreModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Primer apellido: " for="pacientePApellidoModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacientePApellidoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacientePApellido}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Segundo apellido: " for="pacienteSApellidoModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteSApellidoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteSApellido}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="CURP: " for="pacienteCurpModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteCurpModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteCurp}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="RFC: " for="pacienteRFCModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteRFCModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteRFC}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Email: " for="pacienteEmailModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteEmailModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteEmail}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Sexo: " for="pacienteSexoModificar" class="ui-g-12"/>
+                                        <p:selectOneMenu id="pacienteSexoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}" class="ui-g-12" style="margin-bottom: 5px;">
+                                            <f:selectItem itemLabel="MASCULINO" itemValue="M" />
+                                            <f:selectItem itemLabel="FEMENINO" itemValue="F" />
+                                        </p:selectOneMenu>                                        
+
+                                        <h:outputLabel value="Estado civil: " for="pacienteECivilModificar" class="ui-g-12"/>
+                                        <p:selectOneMenu id="pacienteECivilModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteECivil}" class="ui-g-12" style="margin-bottom: 5px;">
+                                            <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
+                                            <f:selectItem itemLabel="CASADO" itemValue="SOLTERO"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Fecha de nacimiento: " for="pacienteFNacimientoModificar" class="ui-g-12"/>
+                                        <p:calendar id="pacienteFNacimientoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteFNacimiento}" showOn="button" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Telefono celular: " for="pacienteTelCelModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteTelCelModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteTelCel}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Telefono fijo: " for="pacienteTelFijoModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteTelFijoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteTelFijo}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Lugar de nacimiento: " for="pacienteLNacimientoModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteLNacimientoModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteLNacimiento}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Donde radica: " for="pacienteRadicaModificar" class="ui-g-12"/>
+                                        <p:inputText id="pacienteRadicaModificar" value="#{expedienteControlador.expedienteSeleccionado.pacienteRadica}" class="ui-g-12"/>
+
+                                        <h:outputLabel value="Alta del expediente: " for="expedienteFecAltaModificar" class="ui-g-12"/>
+                                        <p:inputText id="expedienteFecAltaModificar"  disabled="true" value="#{expedienteControlador.expedienteSeleccionado.expedienteFecAlta}" class="ui-g-12" style="font-weight: bold"/>
+                                    </b:panelGrid>
+                                    <div style="margin: 15px;"/>
+                                    <b:panelGrid colSpans="12">
+                                        <p:commandButton value="Guardar" rendered="#{expedienteControlador.botonGuardar}" actionListener="#{expedienteControlador.modificar()}" oncomplete="$('.modificarExpediente').modal('hide')" update="@form:singleDT, @form:messages" class="ui-g-12"/>
+                                    </b:panelGrid>
+                                </p:outputPanel>
+                            </b:modal>
+                        </b:panel>                                                  
+                    </h:form>                    
+                </b:column>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

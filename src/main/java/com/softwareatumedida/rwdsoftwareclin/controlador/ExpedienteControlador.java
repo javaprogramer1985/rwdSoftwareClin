@@ -19,14 +19,15 @@ import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ExpedienteControlador implements Serializable {
 
     @EJB
     ExpedienteFacadeLocal expedienteFacadeLocal;
     Expediente expediente;
+    Expediente expedientemodificar;
     List<Expediente> listaExpediente;
-    List<Expediente> listaExpedienteSelect;
+    List<Expediente> expedientesFiltrados;
     Expediente expedienteSeleccionado;
     boolean botonNuevo;
     boolean botonGuardar;
@@ -40,7 +41,7 @@ public class ExpedienteControlador implements Serializable {
     public void init() {
         expediente = new Expediente();
         expedienteSeleccionado = new Expediente();
-        listaExpedienteSelect=new ArrayList<>();
+        expedientesFiltrados=new ArrayList<>();
         panelDisabled = false;
         botonNuevo=false;
         botonGuardar=true;
@@ -52,22 +53,19 @@ public class ExpedienteControlador implements Serializable {
     }
     
     public void verHeader(){
-        titleHeader = "DATOS DEL EXPEDIENTE";
-        botonGuardar=false;
-        botonModificar=false;
+        titleHeader = "DATOS GENERALES";
         botonEliminar=false;
     }
     public void eliminarHeader(){
-        titleHeader = "DEBE CONFIRMAR LA ELIMINACION";
-        botonGuardar=false;
-        botonModificar=false;
+        titleHeader = "DEBE CONFIRMAR LA ELIMINACIÒN";
         botonEliminar=true;
     }
     public void nuevoHeader(){
         titleHeader = "INGRESE LOS DATOS DEL NUEVO EXPEDIENTE";
-        botonGuardar=true;
-        botonModificar=false;
-        botonEliminar=false;
+    }
+    
+    public void modificarHeader(){
+        titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";        
     }
     
     public void onClickNuevo(){
@@ -92,9 +90,9 @@ public class ExpedienteControlador implements Serializable {
     
     public void nuevo() {
         try {
-            expedienteFacadeLocal.create(expedienteSeleccionado);
+            expedienteFacadeLocal.create(expediente);
             listar();
-            FacesMessages.info("Aviso ", "Se creo el expediente de " + expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido());
+            FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
             expedienteSeleccionado = new Expediente();            
         } catch (Exception e) {
             FacesMessages.error("Error ", "Ocurrio un problema en el almacenamiento del expediente");
@@ -106,6 +104,7 @@ public class ExpedienteControlador implements Serializable {
         try {
             expedienteFacadeLocal.edit(expedienteSeleccionado);
             expedienteSeleccionado.getPacienteSexo();
+            listar();
             FacesMessages.info("Aviso ", "se modifico el expediente de " + expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido());
         } catch (Exception e) {
             FacesMessages.error("Error ", "ocurrio un problema en modificación del expediente");
@@ -126,6 +125,7 @@ public class ExpedienteControlador implements Serializable {
 
     public void listar() {
         listaExpediente = expedienteFacadeLocal.findAll();
+        expedientesFiltrados = listaExpediente;
     }
 
     public List<Expediente> getListaExpediente() {
@@ -207,12 +207,24 @@ public class ExpedienteControlador implements Serializable {
     public void setTitleHeader(String titleHeader) {
         this.titleHeader = titleHeader;
     }
-    
-    
-    public List<Expediente> getCurrentlySelectedExpedientes() {
-        return listaExpedienteSelect;
+
+    public Expediente getExpedientemodificar() {
+        return expedientemodificar;
     }
 
+    public void setExpedientemodificar(Expediente expedientemodificar) {
+        this.expedientemodificar = expedientemodificar;
+    }
+
+    public List<Expediente> getExpedientesFiltrados() {
+        return expedientesFiltrados;
+    }
+
+    public void setExpedientesFiltrados(List<Expediente> expedientesFiltrados) {
+        this.expedientesFiltrados = expedientesFiltrados;
+    }
+        
+   
     public void toggle(ActionEvent event){
         panelDisabled = false;        
     }

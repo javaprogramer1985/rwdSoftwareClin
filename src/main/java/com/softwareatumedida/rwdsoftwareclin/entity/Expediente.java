@@ -6,6 +6,7 @@
 package com.softwareatumedida.rwdsoftwareclin.entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -96,6 +97,7 @@ public class Expediente implements Serializable {
     private Date expedienteFecAlta;
 
     public Expediente() {
+        expedienteFecAlta = new java.sql.Date(Calendar.getInstance().getTime().getTime());
     }
 
     public Expediente(Integer pacienteId) {
