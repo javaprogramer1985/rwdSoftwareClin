@@ -13,12 +13,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ExpedienteControlador implements Serializable {
 
     @EJB
@@ -27,22 +28,65 @@ public class ExpedienteControlador implements Serializable {
     List<Expediente> listaExpediente;
     List<Expediente> listaExpedienteSelect;
     Expediente expedienteSeleccionado;
-    
-    boolean mostrarPanel;
+    boolean botonNuevo;
+    boolean botonGuardar;
+    boolean botonModificar;
+    boolean botonEliminar;
+    boolean botonCancelar;
+    boolean panelDisabled;
+    String titleHeader;
 
     @PostConstruct
     public void init() {
         expediente = new Expediente();
         expedienteSeleccionado = new Expediente();
         listaExpedienteSelect=new ArrayList<>();
-        mostrarPanel = false;
+        panelDisabled = false;
+        botonNuevo=false;
+        botonGuardar=true;
+        botonModificar=true;
+        botonEliminar=true;
+        botonCancelar=false;
+        panelDisabled=true;
         listar();
     }
-
+    
+    public void verHeader(){
+        titleHeader = "DATOS DEL EXPEDIENTE";
+    }
+    public void eliminarHeader(){
+        titleHeader = "DEBE CONFIRMAR LA ELIMINACION";
+    }
+    public void nuevoHeader(){
+        titleHeader = "INGRESE LOS DATOS DEL NUEVO EXPEDIENTE";
+    }
+    
+    public void onClickNuevo(){
+        botonNuevo=true;
+        botonGuardar=false;
+        botonModificar=true;
+        botonEliminar=true;
+        botonCancelar=false;
+        panelDisabled=false;
+        expedienteSeleccionado = new Expediente();
+    }
+    
+    public void onClickCancelar(){
+        botonNuevo=false;
+        botonGuardar=true;
+        botonModificar=true;
+        botonEliminar=true;
+        botonCancelar=false;
+        panelDisabled=true;
+    }
+    
+    
     public void nuevo() {
         try {
-            expedienteFacadeLocal.create(expediente);
-            FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
+            expedienteFacadeLocal.create(expedienteSeleccionado);
+            listar();
+            FacesMessages.info("Aviso ", "Se creo el expediente de " + expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido());
+            expedienteSeleccionado = new Expediente();            
         } catch (Exception e) {
             FacesMessages.error("Error ", "Ocurrio un problema en el almacenamiento del expediente");
         }
@@ -60,11 +104,12 @@ public class ExpedienteControlador implements Serializable {
         
     }
 
-    public void eliminar(Expediente expe) {
+    public void eliminar() {
         try {
-            expedienteFacadeLocal.remove(expe);
+            expedienteFacadeLocal.remove(expedienteSeleccionado);
             listar();
             FacesMessages.info("Aviso", "¡Se elimino el registro correctamente!");
+            expedienteSeleccionado = new Expediente();   
         } catch (Exception e) {
             FacesMessages.error("Error ", "¡Ocurrio un error al tratar de eliminar el registro!");
         }
@@ -98,26 +143,81 @@ public class ExpedienteControlador implements Serializable {
         this.expedienteSeleccionado = expedienteSeleccionado;
     }
 
-    public boolean isMostrarPanel() {
-        return mostrarPanel;
+    public boolean isPanelDisabled() {
+        return panelDisabled;
     }
 
-    public void setMostrarPanel(boolean mostrarPanel) {
-        this.mostrarPanel = mostrarPanel;
+    public void setPanelDisabled(boolean panelDisabled) {
+        this.panelDisabled = panelDisabled;
+    }
+      
+    public boolean isBotonNuevo() {
+        return botonNuevo;
     }
 
+    public void setBotonNuevo(boolean botonNuevo) {
+        this.botonNuevo = botonNuevo;
+    }
+
+    public boolean isBotonGuardar() {
+        return botonGuardar;
+    }
+
+    public void setBotonGuardar(boolean botonGuardar) {
+        this.botonGuardar = botonGuardar;
+    }
+
+    public boolean isBotonModificar() {
+        return botonModificar;
+    }
+
+    public void setBotonModificar(boolean botonModificar) {
+        this.botonModificar = botonModificar;
+    }
+
+    public boolean isBotonEliminar() {
+        return botonEliminar;
+    }
+
+    public void setBotonEliminar(boolean botonEliminar) {
+        this.botonEliminar = botonEliminar;
+    }
+
+    public boolean isBotonCancelar() {
+        return botonCancelar;
+    }
+
+    public void setBotonCancelar(boolean botonCancelar) {
+        this.botonCancelar = botonCancelar;
+    }    
+
+    public String getTitleHeader() {
+        return titleHeader;
+    }
+
+    public void setTitleHeader(String titleHeader) {
+        this.titleHeader = titleHeader;
+    }
+    
     
     public List<Expediente> getCurrentlySelectedExpedientes() {
         return listaExpedienteSelect;
     }
 
     public void toggle(ActionEvent event){
-        mostrarPanel = false;        
+        panelDisabled = false;        
     }
     public void onSelect(Expediente expediente, String typeOfSelection, String indexes) {
         System.out.println("OnSelect:" + expediente);
         expedienteSeleccionado = null;
         expedienteSeleccionado = expediente;
+        
+        botonNuevo=true;
+        botonGuardar=true;
+        botonModificar=false;
+        botonEliminar=false;
+        botonCancelar=false;
+        panelDisabled=false;
     }
 
 }

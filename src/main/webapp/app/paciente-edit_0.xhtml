@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"      
+      >
+
+    <h:body>
+        <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
+            <ui:define name="content">
+                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main"> 
+                    <b:panelGrid colSpans="12">
+                        <h:panelGroup id="panel0">
+                            <b:panel title="ACCIONES" id="panelBotones" auto-update="true" collapsed="true" collapsible="false" look="primary">                            
+                                <b:form id="formBotones">
+                                    <b:growl id="growlMsg" show-detail="true" show-summary="true" delay="3000"/> 
+                                    <b:panelGrid id="panelGridBotones" colSpans="2,2,2,2,2,2" style="text-align: center">
+                                        <b:commandButton id="botonNuevo" disabled="#{expedienteControlador.botonNuevo}"  onclick="ajax:expedienteControlador.onClickNuevo()" value="Nuevo" colXs="12" update="@form :panel0 :panelBotones:formBotones, :panel2:form2"/>
+                                        <b:commandButton id="botonGuardar" disabled="#{expedienteControlador.botonGuardar}" value="Guardar" look="primary" colXs="12" actionListener="#{expedienteControlador.nuevo}" update="@form :panel1:form1"/>
+                                        <b:commandButton id="botonModificar" disabled="#{expedienteControlador.botonModificar}" value="Modificar" look="info" colXs="12" action="#{expedienteControlador.modificar}" update="@form :panel1:form1"/>
+                                        <b:commandButton id="botonEliminar" disabled="#{expedienteControlador.botonEliminar}" value="Eliminar" look="danger" colXs="12" actionListener="#{expedienteControlador.eliminar}" update="@form :panel1:form1"/>
+                                        <b:commandButton id="botonCancelar" disabled="#{expedienteControlador.botonCancelar}" onclick="ajax:expedienteControlador.onClickCancelar()" value="Cancelar" colXs="12" update="@form :panel0 :panelBotones:formBotones"/>
+                                    </b:panelGrid>
+                                </b:form>
+                            </b:panel>
+                        </h:panelGroup>
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="6,6">                        
+                        <h:panelGroup id="panel1">                        
+                            <b:form id="form1">
+                                <!--b:poll interval="3000" 
+                                        update="dataTableExpedientes"
+                                        actionListener="{expedienteControlador.listar()}"/-->
+                                <b:panel 
+                                    id="formPanel1" 
+                                    collapsed="true" 
+                                    collapsible="false" 
+                                    title="EXPEDIENTES" 
+                                    look="primary"                                    
+                                    >
+                                    <b:dataTable  
+                                        value="#{expedienteControlador.listaExpediente}" 
+                                        id="dataTableExpedientes"
+                                        var="exp" 
+                                        class="editableExpedienteTable" 
+                                        onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:expedienteControlador.onSelect(exp, typeOfSelection, indexes)"
+                                        select="true"
+                                        selectionMode="single"
+                                        responsive="true"
+
+                                        >
+
+                                        <b:dataTableColumn value="#{exp.pacienteNombre}" label="Nombre"></b:dataTableColumn>
+                                        <b:dataTableColumn value="#{exp.pacientePApellido}" label="Primer apellido"></b:dataTableColumn>
+                                        <b:dataTableColumn value="#{exp.pacienteSApellido}" label="Segundo apellido"></b:dataTableColumn>
+
+                                    </b:dataTable>
+                                </b:panel>                                                            
+                            </b:form>
+                        </h:panelGroup>
+                        <h:panelGroup id="panel2">
+                            <b:form id="form2">
+                                <b:panel 
+                                    id="formPanel2" 
+                                    collapsed="true" 
+                                    collapsible="false" 
+                                    title="DATOS EXPEDIENTES"
+                                    contentDisabled="#{expedienteControlador.panelDisabled}"
+                                    look="primary"
+                                    auto-update="true"
+                                    >
+                                    <b:panelGrid colSpans="6,6" autoUpdate="true">                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}" 
+                                                     id="nombrepaciente" 
+                                                     label="Nombre:" 
+                                                     placeholder="Paciente" 
+                                                     required="true"
+                                                     required-message="Su nombre es indispensable para ubicar el expediente."
+                                                     />                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacientePApellido}" id="pacientePApellido" label="Primer apellido:" placeholder="Primer apellido" 
+                                                     required="true" required-message="Sus apellidos son indispensables para ubicar el expediente."
+                                                     />                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteSApellido}" id="pacienteSApellido" label="Segundo apellido:" placeholder="Segundo apellido" 
+                                                     required="true" required-message="Sus apellidos son indispensables para ubicar el expediente."
+                                                     />                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteCurp}" id="pacienteCurp" label="CURP:" placeholder="CURP" 
+                                                     />                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRFC}" id="pacienteRFC" label="RFC:" placeholder="RFC" 
+                                                     />                                
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteEmail}" id="pacienteEmail" label="E-Mail" placeholder="E-Mail"
+                                                     />                                
+                                        <b:datepicker value="#{expedienteControlador.expedienteSeleccionado.pacienteFNacimiento}" 
+                                                      id="PacienteFNacimiento" 
+                                                      mode="popup" 
+                                                      required="true"
+                                                      required-message="La fecha de nacimiento es para indicar la edad en las recetas."
+                                                      label="Fecha de nacimiento"
+                                                      placeholder="Fecha de nacimiento">
+                                        </b:datepicker>                                                            
+                                        <b:selectOneMenu value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}" label="Sexo">                                   
+                                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                            <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                        </b:selectOneMenu>
+
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteECivil}" id="pacienteECivil" label="Estado civil" placeholder="Estado civil" 
+                                                     />
+
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelCel}" id="pacienteTelCel" label="Telefono celular" placeholder="Telefono celular"
+                                                     />                                
+
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteTelFijo}" id="pacienteTelFijo" label="Telefono fijo" placeholder="Telefono fijo"
+                                                     />
+
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteLNacimiento}" id="pacienteLNacimiento" label="Lugar de nacimiento" placeholder="Lugar de nacimiento"
+                                                     />
+
+                                        <b:inputText value="#{expedienteControlador.expedienteSeleccionado.pacienteRadica}" id="pacienteRadica" label="Donde radica" placeholder="Donde radica"
+                                                     /> 
+                                    </b:panelGrid>                                    
+                                </b:panel>
+                            </b:form>
+                        </h:panelGroup>
+                    </b:panelGrid>
+                </b:column>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
