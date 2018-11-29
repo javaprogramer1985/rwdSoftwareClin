@@ -59,13 +59,13 @@
                                     <h:outputText value="#{expediente.pacienteSApellido}"/>
                                 </p:column>
                                 <f:facet name="footer">
-                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialog" icon="fa fa-eye"  oncomplete="PF('datosExpediente').show()"  actionListener="#{expedienteControlador.verHeader()}"/>
-                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialog" icon="fa fa-trash" oncomplete="PF('datosExpediente').show()" actionListener="#{expedienteControlador.eliminarHeader()}"/>
-                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialog" icon="fa fa-plus" oncomplete="PF('datosExpediente').show()" actionListener="#{expedienteControlador.nuevoHeader()}"/>
+                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialogView" icon="fa fa-eye"  oncomplete="PF('datosExpediente').show()"  actionListener="#{expedienteControlador.verHeader()}"/>
+                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialogView" icon="fa fa-trash" oncomplete="PF('datosExpediente').show()" actionListener="#{expedienteControlador.eliminarHeader()}"/>
+                                    <p:commandButton process="singleDT" update="@form:detalleExpediente, @form:dialogNew" icon="fa fa-plus" oncomplete="PF('nuevoExpediente').show()" actionListener="#{expedienteControlador.nuevoHeader()}"/>
                                 </f:facet>
                             </p:dataTable>
                             <p:dialog
-                                id="dialog"
+                                id="dialogView"
                                 header="#{expedienteControlador.titleHeader}"
                                 widgetVar="datosExpediente"
                                 modal="true"
@@ -109,7 +109,71 @@
                                         <h:outputText value="Alta del expediente: "/>
                                         <h:outputText value="#{expedienteControlador.expedienteSeleccionado.expedienteFecAlta}"/>
                                         
-                                        <p:commandButton value="Eliminar" actionListener="#{expedienteControlador.eliminar()}" update="@form:singleDT" oncomplete="PF('datosExpediente').hide()"/>
+                                        <p:commandButton value="Eliminar" rendered="#{expedienteControlador.botonEliminar}" actionListener="#{expedienteControlador.eliminar()}" update="@form:singleDT" oncomplete="PF('datosExpediente').hide()"/>
+                                        <p:commandButton value="Modificar" rendered="#{expedienteControlador.botonModificar}" actionListener="#{expedienteControlador.eliminar()}" update="@form:singleDT" oncomplete="PF('datosExpediente').hide()"/>
+                                        <p:commandButton value="Guardar" rendered="#{expedienteControlador.botonGuardar}" actionListener="#{expedienteControlador.eliminar()}" update="@form:singleDT" oncomplete="PF('datosExpediente').hide()"/>
+                                                         
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </p:dialog>
+                            
+                            <p:dialog
+                                id="dialogNew"
+                                header="#{expedienteControlador.titleHeader}"
+                                widgetVar="nuevoExpediente"
+                                modal="true"
+                                showEffect="fade" 
+                                hideEffect="fade"
+                                resizable="false"
+                                style="z-index: 100000;"
+                                >
+                                <p:outputPanel 
+                                    id="datosNuevoExpediente"
+                                    >
+                                    <p:panelGrid
+                                        columns="2"
+                                        >
+
+                                        <h:outputLabel value="Nombre: " for="pacienteNombre"/>
+                                        <p:inputText id="pacienteNombre" value="#{expedienteControlador.expedienteSeleccionado.pacienteNombre}"/>
+                                        
+                                        <h:outputLabel value="Primer apellido: " for="pacientePApellido"/>
+                                        <p:inputText id="pacientePApellido" value="#{expedienteControlador.expedienteSeleccionado.pacientePApellido}"/>
+                                        
+                                        <h:outputLabel value="Segundo apellido: " for="pacienteSApellido"/>
+                                        <p:inputText id="pacienteSApellido" value="#{expedienteControlador.expedienteSeleccionado.pacienteSApellido}"/>
+                                        
+                                        <h:outputLabel value="CURP: " for="pacienteCurp"/>
+                                        <p:inputText id="pacienteCurp" value="#{expedienteControlador.expedienteSeleccionado.pacienteCurp}"/>
+                                        
+                                        <h:outputLabel value="RFC: " for="pacienteRFC"/>
+                                        <p:inputText id="pacienteRFC" value="#{expedienteControlador.expedienteSeleccionado.pacienteRFC}"/>
+                                        
+                                        <h:outputLabel value="Email: " for="pacienteEmail"/>
+                                        <p:inputText id="pacienteEmail" value="#{expedienteControlador.expedienteSeleccionado.pacienteEmail}"/>
+                                        
+                                        <h:outputLabel value="Sexo: " for="pacienteSexo"/>
+                                        <p:inputText id="pacienteSexo" value="#{expedienteControlador.expedienteSeleccionado.pacienteSexo}"/>
+                                        
+                                        <h:outputLabel value="Estado civil: " for="pacienteECivil"/>
+                                        <p:inputText id="pacienteECivil" value="#{expedienteControlador.expedienteSeleccionado.pacienteECivil}"/>
+                                        
+                                        <h:outputLabel value="Telefono celular: " for="pacienteTelCel"/>
+                                        <p:inputText id="pacienteTelCel" value="#{expedienteControlador.expedienteSeleccionado.pacienteTelCel}"/>
+                                        
+                                        <h:outputLabel value="Telefono fijo: " for="pacienteTelFijo"/>
+                                        <p:inputText id="pacienteTelFijo" value="#{expedienteControlador.expedienteSeleccionado.pacienteTelFijo}"/>
+                                        
+                                        <h:outputLabel value="Lugar de nacimiento: " for="pacienteLNacimiento"/>
+                                        <p:inputText id="pacienteLNacimiento" value="#{expedienteControlador.expedienteSeleccionado.pacienteLNacimiento}"/>
+                                        
+                                        <h:outputLabel value="Donde radica: " for="pacienteRadica"/>
+                                        <p:inputText id="pacienteRadica" value="#{expedienteControlador.expedienteSeleccionado.pacienteRadica}"/>
+                                        
+                                        <h:outputLabel value="Alta del expediente: " for="expedienteFecAlta"/>
+                                        <p:inputText id="expedienteFecAlta" value="#{expedienteControlador.expedienteSeleccionado.expedienteFecAlta}"/>
+                                                                                
+                                        <p:commandButton value="Guardar" rendered="#{expedienteControlador.botonGuardar}" actionListener="#{expedienteControlador.eliminar()}" update="@form:singleDT" oncomplete="PF('datosExpediente').hide()"/>
                                                          
                                     </p:panelGrid>
                                 </p:outputPanel>

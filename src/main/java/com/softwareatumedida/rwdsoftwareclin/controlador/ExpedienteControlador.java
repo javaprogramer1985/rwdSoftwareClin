@@ -53,12 +53,21 @@ public class ExpedienteControlador implements Serializable {
     
     public void verHeader(){
         titleHeader = "DATOS DEL EXPEDIENTE";
+        botonGuardar=false;
+        botonModificar=false;
+        botonEliminar=false;
     }
     public void eliminarHeader(){
         titleHeader = "DEBE CONFIRMAR LA ELIMINACION";
+        botonGuardar=false;
+        botonModificar=false;
+        botonEliminar=true;
     }
     public void nuevoHeader(){
         titleHeader = "INGRESE LOS DATOS DEL NUEVO EXPEDIENTE";
+        botonGuardar=true;
+        botonModificar=false;
+        botonEliminar=false;
     }
     
     public void onClickNuevo(){
