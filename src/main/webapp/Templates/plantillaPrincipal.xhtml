@@ -25,11 +25,6 @@
                     <b:navLink  contentClass="cnclass" iconAwesome="user" value="Mi cuenta" href="#"></b:navLink>
                     <b:navLink  contentClass="cnclass" iconAwesome="question-circle" value="Ayuda" href="#"></b:navLink>
                 </b:navbarLinks>
-                <!--h:form styleClass="navbar-form navbar-right">
-                    <div class="form-group">
-                        <b:inputText placeholder="Search..." fieldSize="sm"/>
-                    </div>
-                </h:form-->
             </b:navBar>
         </ui:insert>
 
@@ -41,29 +36,19 @@
                         <b:panel look="primary" collapsible="false" col-sm="3" col-md="4" styleClass="sidebar">                            
                             <div class="enlaces">
                                 <b:listLinks>
-                                    <b:navLink header="Principal" />
+                                    <b:navLink header="PRINCIPAL" />
                                     <b:navLink href="../app/principal.softwareatumedida" value="Inicio" icon="home" iconAlign="left"/>
                                     <b:navLink></b:navLink>
-                                    <b:navLink header="Usuario"/>
+                                    <b:navLink header="USUARIO"/>
                                     <b:navLink href="../app/usuario-alta.softwareatumedida" value="Nuevo" iconAwesome="user-plus"></b:navLink>
                                     <b:navLink href="../app/usuario-baja.softwareatumedida" value="Baja" iconAwesome="user-times"></b:navLink>
                                     <b:navLink href="../app/usuario-edit.softwareatumedida" value="Modificar" icon="edit"></b:navLink>
                                     <b:navLink></b:navLink>
-                                    <b:navLink header="Expedientes"/>                                    
-                                    <b:navLink href="../app/expediente.softwareatumedida" value="Opciones" icon="edit"></b:navLink>
-                                    <b:navLink></b:navLink>
-                                    <b:navLink header="Recetar"/>
-                                    <b:navLink href="http://getbootstrap.com/components/#navbar" value="Emitir receta" iconAwesome="address-book"></b:navLink>
-                                    <b:navLink href="http://getbootstrap.com/components/#navbar" value="Modificar receta" icon="edit"></b:navLink>
-                                    <b:navLink></b:navLink>
-                                    <b:navLink header="Diagnostico"/>
-                                    <b:navLink href="http://getbootstrap.com/components/#navbar" value="Imprimir diagnostico" icon="print"></b:navLink>
-                                    <b:navLink href="http://getbootstrap.com/components/#navbar" value="Modificar diagnostico" icon="edit"></b:navLink>
-                                    <b:navLink></b:navLink>
-                                    <b:navLink header="Historial medico"/>
-                                    <b:navLink href="http://getbootstrap.com/components/#navbar" value="Ver expediente" icon="book"></b:navLink>
-                                    <!--b:navLink value="Labels and Badges" outcome="/bootstrap/labelsbadge" icon="tag" iconAlign="right"/-->
-                                    <!--b:navLink value="Slider" outcome="/jquery-ui/slider" iconAwesome="sliders"/-->
+                                    <b:navLink header="CONSULTORIO"/>                                    
+                                    <b:navLink href="../app/expediente.softwareatumedida" value="Generales de expediente" icon="edit"></b:navLink>
+                                    <b:navLink href="../app/diagnostico.softwareatumedida" value="Diagnosticos" iconAwesome="fa fa-file-prescription"></b:navLink>                                    
+                                    <b:navLink href="../app/expediente.softwareatumedida" value="Recetas" iconAwesome="address-book"></b:navLink>   
+                                    <b:navLink href="../app/expediente.softwareatumedida" value="Historial medico" icon="book"></b:navLink>
                                     <b:messages />
                                 </b:listLinks>
                             </div>
@@ -77,6 +62,26 @@
             </b:row>
         </b:container> 
         <style type="text/css">
+
+            .close {
+                float: right;
+                font-size: 21px;
+                font-weight: bold;
+                line-height: 1;
+                color: #000;
+                text-shadow: 0 1px 1px #fff;
+                opacity: initial;
+            }
+
+            .modal-header {                
+                background-color: #2196f3;
+                color: #fff;
+            }
+            .dropdown-header {
+                color: #4c4b4b;
+                font-weight: bold;
+            }
+
             .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{
                 background-color: rgba(0, 0, 0, 0.3);
                 height: 46px;
@@ -319,10 +324,10 @@
                 font-weight: 500;
                 letter-spacing: 1px;
             }*/
-            
-/*            .navbar-fixed-top, .navbar-fixed-bottom {                
-                z-index: 0 !important;
-            }*/
+
+            /*            .navbar-fixed-top, .navbar-fixed-bottom {                
+                            z-index: 0 !important;
+                        }*/
         </style>        
         <h:outputScript library="js" name="menu.js"></h:outputScript>
     </h:body>

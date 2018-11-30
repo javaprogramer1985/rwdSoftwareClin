@@ -9,11 +9,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ExpedienteControlador implements Serializable {
 
     @EJB
@@ -84,9 +85,10 @@ public class ExpedienteControlador implements Serializable {
     
     public void nuevo() {
         try {
-            expedienteFacadeLocal.create(expediente);
+            expedienteFacadeLocal.create(expediente);            
             listar();
             FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());                      
+            //expediente = new Expediente(); //Descomentar para eliminar la informacion que se guardo de los input del form
         } catch (Exception e) {
             FacesMessages.error("Error ", "Ocurrio un problema en el almacenamiento del expediente");
         }
@@ -117,9 +119,9 @@ public class ExpedienteControlador implements Serializable {
     }
 
     public void listar() {
-        listaExpediente = new ArrayList<>();
+//        listaExpediente = new ArrayList<>();
         listaExpediente = expedienteFacadeLocal.findAll();
-        expedientesFiltrados = new ArrayList<>();
+//        expedientesFiltrados = new ArrayList<>();
         expedientesFiltrados = listaExpediente;
     }
 
