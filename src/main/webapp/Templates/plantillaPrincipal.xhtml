@@ -13,6 +13,7 @@
     <h:body style="padding-top: 60px">
         <h:outputScript library="holder" name="holder.js" />
         <h:outputStylesheet library="css" name="animate.css"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"/>
         <!--script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.5.2/holder.min.js"></script-->
 
         <!-- TOP -->
@@ -45,10 +46,10 @@
                                     <b:navLink href="../app/usuario-edit.softwareatumedida" value="Modificar" icon="edit"></b:navLink>
                                     <b:navLink></b:navLink>
                                     <b:navLink header="CONSULTORIO"/>                                    
-                                    <b:navLink href="../app/expediente.softwareatumedida" value="Generales de expediente" icon="edit"></b:navLink>
-                                    <b:navLink href="../app/diagnostico.softwareatumedida" value="Diagnosticos" iconAwesome="fa fa-file-prescription"></b:navLink>                                    
+                                    <b:navLink href="../app/expediente.softwareatumedida" value="Generales de expediente" icon-awesome="folder-open"></b:navLink>
+                                    <b:navLink href="../app/diagnostico.softwareatumedida" value="Diagnosticos" icon-awesome="prescription"></b:navLink>                                    
                                     <b:navLink href="../app/expediente.softwareatumedida" value="Recetas" iconAwesome="address-book"></b:navLink>   
-                                    <b:navLink href="../app/expediente.softwareatumedida" value="Historial medico" icon="book"></b:navLink>
+                                    <b:navLink href="../app/expediente.softwareatumedida" value="Historial medico" iconAwesome="history"></b:navLink>
                                     <b:messages />
                                 </b:listLinks>
                             </div>
@@ -62,7 +63,9 @@
             </b:row>
         </b:container> 
         <style type="text/css">
-
+            .ui-icon-prescription{
+                background-image: url("#{resource['images/file-prescription-solid.svg']}") !important;
+            }
             .close {
                 float: right;
                 font-size: 21px;
