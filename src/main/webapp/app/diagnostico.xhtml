@@ -41,7 +41,28 @@
                         collapsed="true" 
                         collapsible="false" 
                         look="info">
-                        
+                        <h:form id="formTable">
+                            <p:dataTable 
+                                id="singleDTDiag"
+                                var="diagnostico"
+                                value="#{diagnosticoControlador.diagnosticos}"
+                                paginator="true"                                
+                                reflow="true" 
+                                rows="10" 
+                                widgetVar="diagnosticoTable"
+                                emptyMessage="No se encontraron coincidencias"
+                                                             
+                                >
+                              
+                                <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre}" headerText="Nombre(s)">
+                                    <h:outputText value="#{diagnostico.usuarioUsr.usuarioNombre}"/>
+                                </p:column>
+
+                                <p:column filterBy="#{diagnostico.usuarioUsr.usuarioApellido}" headerText="Apellidos">
+                                    <h:outputText value="#{diagnostico.usuarioUsr.usuarioApellido}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
                     </b:panel>                                                       
                 </b:column>
             </ui:define>

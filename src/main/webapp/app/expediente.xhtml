@@ -108,21 +108,21 @@
                     <h:form id="formView">
                         <b:growl id="messages" showDetail="true"/>
                         <b:panel title="REALIZAR OPERACIONES EN EL EXPEDIENTE" look="info" collapsed="true" collapsible="false">
-                            <p:dataTable 
-                                id="singleDT"
-                                var="expediente"
-                                value="#{expedienteControlador.listaExpediente}"
-                                paginator="true"                                
-                                reflow="true" 
-                                rows="10" 
-                                selectionMode="single" 
-                                widgetVar="expedientesTable"
-                                emptyMessage="No se encontraron coincidencias"
-                                selection="#{expedienteControlador.expedienteSeleccionado}" 
-                                rowKey="#{expediente.pacienteId}"                                  
-                                filteredValue="#{expedienteControlador.expedientesFiltrados}"
-                                
-                                >
+                                <p:dataTable 
+                                    id="singleDT"
+                                    var="expediente"
+                                    value="#{expedienteControlador.listaExpediente}"
+                                    paginator="true"                                
+                                    reflow="true" 
+                                    rows="10" 
+                                    selectionMode="single" 
+                                    widgetVar="expedientesTable"
+                                    emptyMessage="No se encontraron coincidencias"
+                                    selection="#{expedienteControlador.expedienteSeleccionado}" 
+                                    rowKey="#{expediente.pacienteId}"                                  
+                                    filteredValue="#{expedienteControlador.expedientesFiltrados}"
+
+                                    >
                                 <f:facet name="header">
                                     <p:outputPanel style="text-align: left">
                                         <h:outputText value="Busqueda general: "/>

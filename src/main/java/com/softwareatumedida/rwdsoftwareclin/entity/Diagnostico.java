@@ -64,7 +64,7 @@ public class Diagnostico implements Serializable {
     @Size(max = 45)
     @Column(name = "RxParentesco")
     private String rxParentesco;
-    @Size(max = 100)
+    @Size(max = 250)
     @Column(name = "RxMConsulta")
     private String rxMConsulta;
     @Size(max = 40)
