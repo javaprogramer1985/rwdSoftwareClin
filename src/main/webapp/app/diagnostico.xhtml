@@ -51,7 +51,9 @@
                                 rows="10" 
                                 widgetVar="diagnosticoTable"
                                 emptyMessage="No se encontraron coincidencias"
-                                                             
+                                selectionMode="single"
+                                selection="#{diagnosticoControlador.diagnosticoSeleccionado}"
+                                rowKey="#{diagnostico.rxId}"
                                 >
                               
                                 <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre}" headerText="Nombre(s)">

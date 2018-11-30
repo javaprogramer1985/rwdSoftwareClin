@@ -21,13 +21,14 @@ public class DiagnosticoControlador implements Serializable {
     DiagnosticoFacadeLocal diagnosticoFacadeLocal;
 
     List<Diagnostico> diagnosticos;
-    List<Diagnostico> diagnosticoSeleccionado;
+    List<Diagnostico> diagnosticosSeleccionados;
     List<Diagnostico> diagnosticosFiltrados;
     Diagnostico diagnostico;
+    Diagnostico diagnosticoSeleccionado;
 
     @PostConstruct
     public void init() {
-        diagnosticoSeleccionado = new ArrayList<>();
+        diagnosticosSeleccionados = new ArrayList<>();
         diagnosticosFiltrados = new ArrayList<>();
         diagnostico = new Diagnostico();
         listar();
@@ -56,13 +57,23 @@ public class DiagnosticoControlador implements Serializable {
         this.diagnosticos = diagnosticos;
     }
 
-    public List<Diagnostico> getDiagnosticoSeleccionado() {
+    public List<Diagnostico> getDiagnosticosSeleccionados() {
+        return diagnosticosSeleccionados;
+    }
+
+    public void setDiagnosticosSeleccionados(List<Diagnostico> diagnosticosSeleccionados) {
+        this.diagnosticosSeleccionados = diagnosticosSeleccionados;
+    }
+
+    public Diagnostico getDiagnosticoSeleccionado() {
         return diagnosticoSeleccionado;
     }
 
-    public void setDiagnosticoSeleccionado(List<Diagnostico> diagnosticoSeleccionado) {
+    public void setDiagnosticoSeleccionado(Diagnostico diagnosticoSeleccionado) {
         this.diagnosticoSeleccionado = diagnosticoSeleccionado;
     }
+
+    
 
     public List<Diagnostico> getDiagnosticosFiltrados() {
         return diagnosticosFiltrados;
