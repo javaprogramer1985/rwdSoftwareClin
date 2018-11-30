@@ -3,18 +3,12 @@ package com.softwareatumedida.rwdsoftwareclin.controlador;
 import com.softwareatumedida.rwdsoftwareclin.ejb.ExpedienteFacadeLocal;
 import com.softwareatumedida.rwdsoftwareclin.entity.Expediente;
 import java.io.Serializable;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import net.bootsfaces.utils.FacesMessages;
 
@@ -92,8 +86,7 @@ public class ExpedienteControlador implements Serializable {
         try {
             expedienteFacadeLocal.create(expediente);
             listar();
-            FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());
-            expedienteSeleccionado = new Expediente();            
+            FacesMessages.info("Aviso ", "Se creo el expediente de " + expediente.getPacienteNombre() + " " + expediente.getPacientePApellido() + " " + expediente.getPacienteSApellido());                      
         } catch (Exception e) {
             FacesMessages.error("Error ", "Ocurrio un problema en el almacenamiento del expediente");
         }
@@ -124,7 +117,9 @@ public class ExpedienteControlador implements Serializable {
     }
 
     public void listar() {
+        listaExpediente = new ArrayList<>();
         listaExpediente = expedienteFacadeLocal.findAll();
+        expedientesFiltrados = new ArrayList<>();
         expedientesFiltrados = listaExpediente;
     }
 
