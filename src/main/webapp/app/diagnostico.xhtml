@@ -55,7 +55,7 @@
                                 selection="#{diagnosticoControlador.diagnosticoSeleccionado}"
                                 rowKey="#{diagnostico.rxId}"
                                 >
-                              
+
                                 <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre}" headerText="Nombre(s)">
                                     <h:outputText value="#{diagnostico.usuarioUsr.usuarioNombre}"/>
                                 </p:column>
@@ -63,9 +63,242 @@
                                 <p:column filterBy="#{diagnostico.usuarioUsr.usuarioApellido}" headerText="Apellidos">
                                     <h:outputText value="#{diagnostico.usuarioUsr.usuarioApellido}"/>
                                 </p:column>
+
+                                <f:facet name="footer">
+                                    <p:tooltip id="toolTipNuevo" for="tipNuevo" value="Ingresar diagnostico a expediente" position="top"/>
+                                    <p:commandButton id="tipNuevo" update=":formNew:dialogNew" icon="fa fa-plus" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.nuevoHeader()}"/>                                    
+                                </f:facet>
                             </p:dataTable>
-                        </h:form>
-                    </b:panel>                                                       
+                        </h:form>                        
+                    </b:panel>   
+
+                    <h:form id="formNew">                        
+                        <b:modal                             
+                            id="dialogNew"
+                            title="#{diagnosticoControlador.titleHeader}"
+                            styleClass="nuevoDiagnostico"
+                            backdrop="false">
+                            <b:messages id="messages" showDetail="true" auto-update="true"/>
+                            <p:wizard flowListener="#{diagnosticoControlador.onFlowProcess}">
+                                <p:tab id="medico" title="Responsable">
+                                    <b:panel title="Especifique el responsable" look="info" collapsed="true" collapsible="false">
+                                        <p:dataTable
+                                            id="singleDataTable"
+                                            var="personal"
+                                            value="#{diagnosticoControlador.listPersonal}"
+                                            reflow="true"
+                                            rows="5"
+                                            paginator="true"
+                                            selectionMode="single"
+                                            rowKey="#{personal.usuarioUsr}"
+                                            selection="#{diagnosticoControlador.personalSeleccionado}"
+                                            >
+                                            <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelect}"/>
+                                            
+                                            <p:column filterBy="#{personal.usuarioNombre}" headerText="Nombre">
+                                                <h:outputText value="#{personal.usuarioNombre}"/>
+                                            </p:column>
+                                            <p:column filterBy="#{personal.usuarioApellido}" headerText="Apellidos">
+                                                <h:outputText value="#{personal.usuarioApellido}"/>
+                                            </p:column>
+                                            <p:column filterBy="#{personal.CTusuarioId.CTusuarioDes}" headerText="Tipo de usuario">
+                                                <h:outputText value="#{personal.CTusuarioId.CTusuarioDes}"/>
+                                            </p:column>
+                                            
+                                        </p:dataTable>                                        
+                                        
+                                    </b:panel>
+                                </p:tab>
+                                <p:tab id="paciente" title="Paciente">
+                                    <b:panel title="Especifique el paciente" look="info" collapsed="true" collapsible="false">
+                                        <p:dataTable
+                                            id="dataTablePaciente"
+                                            var="paciente"
+                                            value="#{diagnosticoControlador.expedientes}"
+                                            reflow="true"
+                                            rows="5"
+                                            paginator="true"
+                                            selectionMode="single"
+                                            rowKey="#{paciente.pacienteId}"
+                                            selection="#{diagnosticoControlador.expedienteSeleccionado}">
+                                            
+                                            <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelectItemPaciente}"/>
+                                            
+                                            <p:column filterBy="#{paciente.pacienteNombre}" headerText="Nombre">
+                                                <h:outputText value="#{paciente.pacienteNombre}"/>
+                                            </p:column>
+                                            <p:column filterBy="#{paciente.pacientePApellido}" headerText="Primer apellido">
+                                                <h:outputText value="#{paciente.pacientePApellido}"/>
+                                            </p:column>
+                                            <p:column filterBy="#{paciente.pacienteSApellido}" headerText="Segundo apellido">
+                                                <h:outputText value="#{paciente.pacienteSApellido}"/>
+                                            </p:column>
+                                            
+                                        </p:dataTable>
+                                    </b:panel>
+                                </p:tab>
+                                <p:tab id="diagnostico" title="Diagnostico">
+                                    <b:panel title="Especifique los datos del diagnostico" look="info" collapsed="true" collapsible="false">
+                                        <b:panelGrid colSpans="5,7">
+                                            <p:outputLabel value="Acompañante" for="RxPacienteAcompañante" class="ui-g-12"/>
+                                            <p:inputText id="RxPacienteAcompañante" value="#{diagnosticoControlador.diagnostico.rxPacienteAcompañante}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Parentesco" for="RxParentesco" class="ui-g-12"/>
+                                            <p:inputText id="RxParentesco" value="#{diagnosticoControlador.diagnostico.rxParentesco}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Tipo de ingreso" for="CTipoIngresoId" class="ui-g-12"/>
+                                            <p:selectOneMenu 
+                                                id="CTipoIngresoId" 
+                                                value="#{diagnosticoControlador.selectTipoIngresoId}" 
+                                                appendTo="@this"
+                                                class="ui-g-12"
+                                                style="margin-bottom: 5px;">
+                                                <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                                                <f:selectItems 
+                                                    value="#{diagnosticoControlador.listTipoIngreso}" 
+                                                    var="item"
+                                                    itemLabel="#{item.CTipoIngresoDes}"
+                                                    itemValue="#{item.CTipoIngresoId}"/>
+                                            </p:selectOneMenu>
+                                            
+                                            <p:outputLabel value="Motivo de consulta" for="RxMConsulta" class="ui-g-12"/>
+                                            <p:inputText id="RxMConsulta" value="#{diagnosticoControlador.diagnostico.rxMConsulta}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="TRIAGE: Prioridad" for="CPrioridadId" class="ui-g-12"/>
+                                            <p:selectOneMenu 
+                                                id="CPrioridadId" 
+                                                value="#{diagnosticoControlador.selectPrioridadTriage}" 
+                                                appendTo="@this"
+                                                class="ui-g-12"
+                                                style="margin-bottom: 5px;">
+                                                <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                                                <f:selectItems 
+                                                    value="#{diagnosticoControlador.triagePrioridades}" 
+                                                    var="itemTriage"
+                                                    itemLabel="#{itemTriage.CPrioridadDes}"
+                                                    itemValue="#{itemTriage.CPrioridadId}"/>
+                                            </p:selectOneMenu>
+                                            
+                                            <p:outputLabel value="Estado del paciente" for="CEstadoPacienteId" class="ui-g-12"/>
+                                            <p:selectOneMenu 
+                                                id="CEstadoPacienteId" 
+                                                value="#{diagnosticoControlador.selectEstadoPacienteId}" 
+                                                appendTo="@this"
+                                                class="ui-g-12"
+                                                style="margin-bottom: 5px;">
+                                                <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                                                <f:selectItems 
+                                                    value="#{diagnosticoControlador.listEstadoPaciente}" 
+                                                    var="itemEstadoPaciente"
+                                                    itemLabel="#{itemEstadoPaciente.CEstadoDes}"
+                                                    itemValue="#{itemEstadoPaciente.CEstadoPacienteId}"/>
+                                            </p:selectOneMenu>
+                                            
+                                            <p:outputLabel value="Frecuencia Cardiaca" for="RxFC" class="ui-g-12"/>
+                                            <p:inputText id="RxFC" value="#{diagnosticoControlador.diagnostico.rxFC}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Frecuencia Respiratoria" for="RxFR" class="ui-g-12"/>
+                                            <p:inputText id="RxFR" value="#{diagnosticoControlador.diagnostico.rxFR}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Temperatura" for="RxTemp" class="ui-g-12"/>
+                                            <p:inputText id="RxTemp" value="#{diagnosticoControlador.diagnostico.rxTemp}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Interconsulta" for="RxInterconsulta" class="ui-g-12"/>
+                                            <p:inputText id="RxInterconsulta" value="#{diagnosticoControlador.diagnostico.rxInterconsulta}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Exploración fisica" for="RxExploracionFisica" class="ui-g-12"/>
+                                            <p:inputText id="RxExploracionFisica" value="#{diagnosticoControlador.diagnostico.rxExploracionFisica}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Diagnostico" for="RxDiagnostico" class="ui-g-12"/>
+                                            <p:inputText id="RxDiagnostico" value="#{diagnosticoControlador.diagnostico.rxDiagnostico}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Indicaciones medicas" for="RxIndicacionesMedicas" class="ui-g-12"/>
+                                            <p:inputText id="RxIndicacionesMedicas" value="#{diagnosticoControlador.diagnostico.rxIndicacionesMedicas}" class="ui-g-12"/>
+                                            
+                                            <p:outputLabel value="Estado" for="CEstadoId" class="ui-g-12"/>                                           
+                                            <p:selectOneMenu 
+                                                id="CEstadoId" 
+                                                value="#{diagnosticoControlador.selectEstadoId}" 
+                                                appendTo="@this"
+                                                class="ui-g-12"
+                                                style="margin-bottom: 5px;">
+                                                <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                                                <f:selectItems 
+                                                    value="#{diagnosticoControlador.listEstado}" 
+                                                    var="itemEstado"
+                                                    itemLabel="#{itemEstado.CEstadoDes}"
+                                                    itemValue="#{itemEstado.CEstadoId}"/>
+                                            </p:selectOneMenu>
+                                            
+                                            
+                                            <p:outputLabel value="Fecha de egreso" for="RxFechaEgreso" class="ui-g-12"/>
+                                            <p:calendar id="RxFechaEgreso" value="#{diagnosticoControlador.diagnostico.rxFechaEgreso}" showOn="button" class="ui-g-12"/>
+                                            
+                                        </b:panelGrid>                                                                                
+                                    </b:panel>
+                                </p:tab>
+                                <p:tab id="resumen" title="Resumen">
+                                    <b:panel title="Resumen del diagnostico" look="info" collapsed="true" collapsible="false">
+                                        <b:panelGrid colSpans="5,7">
+                                            <h:outputLabel value="Medico respondable" for="usuarioNombreResumen"/>
+                                            <h:outputText id="usuarioNombreResumen" value="#{diagnosticoControlador.medicoResponsable}"/>                                            
+                                            
+                                            <h:outputLabel value="Paciente" for="pacienteDiagnosticado"/>
+                                            <h:outputText id="pacienteDiagnosticado" value="#{diagnosticoControlador.pacienteDiagnosticado}"/>
+                                            
+                                            <h:outputLabel value="Acompañante" for="RxPacienteAcompañanteResumen"/>
+                                            <h:outputText id="RxPacienteAcompañanteResumen" value="#{diagnosticoControlador.diagnostico.rxPacienteAcompañante}"/>
+                                            
+                                            <h:outputLabel value="Parentesco" for="RxParentescoResumen"/>
+                                            <h:outputText id="RxParentescoResumen" value="#{diagnosticoControlador.diagnostico.rxParentesco}"/>
+                                            
+                                            <h:outputLabel value="Tipo de ingreso" for="CTipoIngresoIdResumen"/>
+                                            <h:outputText id="CTipoIngresoIdResumen" value="#{diagnosticoControlador.tipoIngresoSeleccionadoResumen.CTipoIngresoDes}"/>
+                                            
+                                            <h:outputLabel value="Motivo de consulta" for="RxMConsultaResumen"/>
+                                            <h:outputText id="RxMConsultaResumen" value="#{diagnosticoControlador.diagnostico.rxMConsulta}"/>
+                                            
+                                            <h:outputLabel value="TRIAGE: Prioridad" for="CPrioridadIdResumen"/>
+                                            <h:outputText value="#{diagnosticoControlador.prioridadSeleccionadaResumen.CPrioridadDes}"/>
+                                            
+                                            <h:outputLabel value="Estado del paciente" for="CEstadoPacienteIdResumen"/>
+                                            <h:outputText id="CEstadoPacienteIdResumen" value="#{diagnosticoControlador.estadoPacienteSeleccionadoResumen.CEstadoDes}"/>
+                                            
+                                            <h:outputLabel value="Frecuencia Cardiaca" for="RxFCResumen"/>
+                                            <h:outputText id="RxFCResumen" value="#{diagnosticoControlador.diagnostico.rxFC}"/>
+                                            
+                                            <h:outputLabel value="Frecuencia Respiratoria" for="RxFRResumen"/>
+                                            <h:outputText id="RxFRResumen" value="#{diagnosticoControlador.diagnostico.rxFR}"/>
+                                            
+                                            <h:outputLabel value="Temperatura" for="RxTempResumen"/>
+                                            <h:outputText id="RxTempResumen" value="#{diagnosticoControlador.diagnostico.rxTemp}"/>
+                                            
+                                            <h:outputLabel value="Interconsulta" for="RxInterconsultaResumen"/>
+                                            <h:outputText id="RxInterconsultaResumen" value="#{diagnosticoControlador.diagnostico.rxInterconsulta}"/>
+                                            
+                                            <h:outputLabel value="Exploración fisica" for="RxExploracionFisicaResumen"/>
+                                            <h:outputText id="RxExploracionFisicaResumen" value="#{diagnosticoControlador.diagnostico.rxExploracionFisica}"/>
+                                            
+                                            <h:outputLabel value="Diagnostico" for="RxDiagnosticoResumen"/>
+                                            <h:outputText id="RxDiagnosticoResumen" value="#{diagnosticoControlador.diagnostico.rxDiagnostico}"/>
+                                            
+                                            <h:outputLabel value="Indicaciones medicas" for="RxIndicacionesMedicasResumen"/>
+                                            <h:outputText id="RxIndicacionesMedicasResumen" value="#{diagnosticoControlador.diagnostico.rxIndicacionesMedicas}"/>
+                                            
+                                            <h:outputLabel value="Estado" for="CEstadoIdResumen"/>
+                                            <h:outputText id="CEstadoIdResumen" value="#{diagnosticoControlador.estadoSeleccionadoResumen.CEstadoDes}"/>
+                                            
+                                            <h:outputLabel value="Fecha de egreso" for="RxFechaEgresoResumen"/>
+                                            <h:outputText id="RxFechaEgresoResumen" value="#{diagnosticoControlador.diagnostico.rxFechaEgreso}"/>
+                                            
+                                        </b:panelGrid>
+                                        <p:commandButton value="Guardar diagnostico" class="ui-g-12" actionListener="#{diagnosticoControlador.nuevo()}" update="@form"/>
+                                    </b:panel>
+                                </p:tab>
+                            </p:wizard>
+                            
+                        </b:modal>
+                    </h:form>
                 </b:column>
             </ui:define>
         </ui:composition>
