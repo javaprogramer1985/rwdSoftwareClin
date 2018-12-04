@@ -20,8 +20,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import net.bootsfaces.utils.FacesMessages;
 import org.primefaces.event.FlowEvent;
@@ -90,6 +88,8 @@ public class DiagnosticoControlador implements Serializable {
     int selectEstadoId;
 
     private boolean skip;
+    private boolean botonNuevo;
+    private boolean botonModificar;
 
     @PostConstruct
     public void init() {
@@ -153,6 +153,23 @@ public class DiagnosticoControlador implements Serializable {
 
     }
 
+    public void modificar(){
+        try {
+            diagnostico.setPacienteId(expedienteSeleccionado);
+            diagnostico.setUsuarioUsr(personalSeleccionado);
+            diagnostico.setCTipoIngresoId(tipoIngresoSeleccionadoResumen);
+            diagnostico.setCPrioridadId(prioridadSeleccionadaResumen);
+            diagnostico.setCEstadoPacienteId(estadoPacienteSeleccionadoResumen);
+            diagnostico.setCEstadoId(estadoSeleccionadoResumen);
+
+            diagnosticoFacadeLocal.create(diagnostico);
+            listar();
+            FacesMessages.info("Aviso", "Se ha modificado el diagnostico de " + diagnostico.getPacienteId().getPacienteNombre() + " " + diagnostico.getPacienteId().getPacientePApellido() + " " + diagnostico.getPacienteId().getPacienteSApellido());
+        } catch (Exception e) {
+            FacesMessages.fatal("Error de Sistema! ", "Favor de avisar al desarrollador del sistema");
+        }
+    }
+    
     public void verHeader() {
         titleHeader = "DATOS GENERALES";
     }
@@ -165,10 +182,15 @@ public class DiagnosticoControlador implements Serializable {
         titleHeader = "ASISTENTE DE DIAGNOSTICO";
         expedienteSeleccionado = new Expediente();
         personalSeleccionado = new Personal();
+        diagnostico = new Diagnostico();
+        botonModificar = false;
+        botonNuevo = true;
     }
 
     public void modificarHeader() {
         titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";
+        botonModificar = true;
+        botonNuevo = false;
     }
 
     public List<Diagnostico> getDiagnosticos() {
@@ -443,6 +465,22 @@ public class DiagnosticoControlador implements Serializable {
         this.estadoSeleccionadoResumen = estadoSeleccionadoResumen;
     }
 
+    public boolean isBotonNuevo() {
+        return botonNuevo;
+    }
+
+    public void setBotonNuevo(boolean botonNuevo) {
+        this.botonNuevo = botonNuevo;
+    }
+
+    public boolean isBotonModificar() {
+        return botonModificar;
+    }
+
+    public void setBotonModificar(boolean botonModificar) {
+        this.botonModificar = botonModificar;
+    }
+    
     public boolean isSkip() {
         return skip;
     }
@@ -486,6 +524,16 @@ public class DiagnosticoControlador implements Serializable {
 
     public void onRowSelectItemPaciente(SelectEvent event) {
         pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
+    }
+    
+    public void onRowSelectItemDiagnostico(SelectEvent event) {
+        
+        diagnostico = diagnosticoSeleccionado;
+        personalSeleccionado = diagnosticoSeleccionado.getUsuarioUsr();
+        expedienteSeleccionado = diagnosticoSeleccionado.getPacienteId();
+        
+        
+        
     }
 
 }

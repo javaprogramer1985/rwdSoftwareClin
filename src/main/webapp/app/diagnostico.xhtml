@@ -56,6 +56,8 @@
                                 rowKey="#{diagnostico.rxId}"
                                
                                 >
+                                
+                                <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelectItemDiagnostico}"/>
 
                                 <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre}" headerText="Nombre(s)">
                                     <h:outputText value="#{diagnostico.usuarioUsr.usuarioNombre}"/>
@@ -66,6 +68,9 @@
                                 </p:column>
 
                                 <f:facet name="footer">
+                                    <p:tooltip id="toolTipModificar" for="tipModificar" value="Permite modificar datos del diagnostico" position="top"/>
+                                    <p:commandButton id="tipModificar" update=":formNew:dialogNew,@(#singleDataTable)" icon="fa fa-edit" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.modificarHeader()}"/>
+                                    
                                     <p:tooltip id="toolTipNuevo" for="tipNuevo" value="Ingresar diagnostico a expediente" position="top"/>
                                     <p:commandButton id="tipNuevo" update=":formNew:dialogNew" icon="fa fa-plus" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.nuevoHeader()}"/>                                    
                                 </f:facet>
@@ -81,7 +86,7 @@
                             styleClass="nuevoDiagnostico"
                             backdrop="false">
                             <b:messages id="messages" showDetail="true" auto-update="true"/>
-                            <p:wizard flowListener="#{diagnosticoControlador.onFlowProcess}">
+                            <p:wizard flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras">
                                 <p:tab id="medico" title="Responsable">
                                     <b:panel title="Especifique el responsable" look="info" collapsed="true" collapsible="false">
                                         <p:dataTable
@@ -295,7 +300,8 @@
 
                                         </b:panelGrid>
                                         <b:panelGrid colSpans="12">
-                                            <p:commandButton value="Guardar diagnostico" actionListener="#{diagnosticoControlador.nuevo()}" oncomplete="$('.nuevoDiagnostico').modal('hide')" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:growl" process="@this"/>
+                                            <p:commandButton value="Modificar diagnostico" actionListener="#{diagnosticoControlador.modificar()}" rendered="#{diagnosticoControlador.botonModificar}" oncomplete="$('.nuevoDiagnostico').modal('hide')" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:growl" process="@this"/>
+                                            <p:commandButton value="Guardar diagnostico" actionListener="#{diagnosticoControlador.nuevo()}" rendered="#{diagnosticoControlador.botonNuevo}" oncomplete="$('.nuevoDiagnostico').modal('hide')" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:growl" process="@this"/>
                                         </b:panelGrid>
                                     </b:panel>
                                 </p:tab>
