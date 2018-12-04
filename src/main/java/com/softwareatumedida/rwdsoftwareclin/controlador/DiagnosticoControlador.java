@@ -28,7 +28,7 @@ import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class DiagnosticoControlador implements Serializable {
 
     @EJB
@@ -38,14 +38,14 @@ public class DiagnosticoControlador implements Serializable {
     @EJB
     ExpedienteFacadeLocal expedienteFacadeLocal;
     @EJB
-    CTipoingresoFacadeLocal cTipoingresoFacadeLocal;  
+    CTipoingresoFacadeLocal cTipoingresoFacadeLocal;
     @EJB
-    CPrioridadFacadeLocal triagePrioridadFacadeLocal;        
+    CPrioridadFacadeLocal triagePrioridadFacadeLocal;
     @EJB
     CEstadopacienteFacadeLocal estadoPacienteFacadeLocal;
     @EJB
     CEstadoFacadeLocal estadoFacadeLocal;
-    
+
     List<Diagnostico> diagnosticos;
     List<Diagnostico> diagnosticosSeleccionados;
     List<Diagnostico> diagnosticosFiltrados;
@@ -55,32 +55,31 @@ public class DiagnosticoControlador implements Serializable {
     List<Personal> listPersonal;
     Personal personal;
     Personal personalSeleccionado; //Medico responsable del diagnostico
-    
+
     List<Expediente> expedientes;
     Expediente expediente;
     Expediente expedienteSeleccionado; //Paciente diagnosticado
-    
+
     List<CPrioridad> triagePrioridades;
     CPrioridad prioridadTriage;
     CPrioridad prioridadTriageSeleccionada; //Prioridad de urgencia del paciente
-    
+
     List<CEstadopaciente> listEstadoPaciente;
     CEstadopaciente estadoPaciente;
     CEstadopaciente estadoPacienteSeleccionado; //Estado del paciente
-    
+
     List<CEstado> listEstado;
     CEstado estado;
     CEstado estadoSeleccionado; //Estado del paciente en el hospital
-    
+
     List<CTipoingreso> cTipoIngreso;
     List<CTipoingreso> listTipoIngreso;
     CTipoingreso tipoIngreso;
-    
+
     String titleHeader;
     String medicoResponsable;
     String pacienteDiagnosticado;
-    
-    
+
     CTipoingreso tipoIngresoSeleccionadoResumen;
     int selectTipoIngresoId;
     CPrioridad prioridadSeleccionadaResumen;
@@ -89,7 +88,7 @@ public class DiagnosticoControlador implements Serializable {
     int selectEstadoPacienteId;
     CEstado estadoSeleccionadoResumen;
     int selectEstadoId;
-    
+
     private boolean skip;
 
     @PostConstruct
@@ -106,26 +105,26 @@ public class DiagnosticoControlador implements Serializable {
         listar();
     }
 
-    public void catalogoEstados(){
-         listEstado = estadoFacadeLocal.findAll();
+    public void catalogoEstados() {
+        listEstado = estadoFacadeLocal.findAll();
     }
-    
-    public void catalogoEstadoPaciente(){
-         listEstadoPaciente = estadoPacienteFacadeLocal.findAll();
+
+    public void catalogoEstadoPaciente() {
+        listEstadoPaciente = estadoPacienteFacadeLocal.findAll();
     }
-    
-    public void catalogoPrioridadesTriage(){
-         triagePrioridades = triagePrioridadFacadeLocal.findAll();
+
+    public void catalogoPrioridadesTriage() {
+        triagePrioridades = triagePrioridadFacadeLocal.findAll();
     }
-    
-    public void catalogoTipoIngreso(){
+
+    public void catalogoTipoIngreso() {
         listTipoIngreso = cTipoingresoFacadeLocal.findAll();
     }
-    
+
     public void mostrarUsuarios() {
         listPersonal = personalFacadeLocal.findAll();
     }
-    
+
     public void mostrarPacientes() {
         expedientes = expedienteFacadeLocal.findAll();
     }
@@ -136,7 +135,16 @@ public class DiagnosticoControlador implements Serializable {
 
     public void nuevo() {
         try {
+
+            diagnostico.setPacienteId(expedienteSeleccionado);
+            diagnostico.setUsuarioUsr(personalSeleccionado);
+            diagnostico.setCTipoIngresoId(tipoIngresoSeleccionadoResumen);
+            diagnostico.setCPrioridadId(prioridadSeleccionadaResumen);
+            diagnostico.setCEstadoPacienteId(estadoPacienteSeleccionadoResumen);
+            diagnostico.setCEstadoId(estadoSeleccionadoResumen);
+
             diagnosticoFacadeLocal.create(diagnostico);
+            listar();
             FacesMessages.info("Aviso", "se ha generado el diagnostico de " + diagnostico.getPacienteId().getPacienteNombre() + " " + diagnostico.getPacienteId().getPacientePApellido() + " " + diagnostico.getPacienteId().getPacienteSApellido());
             //diagnostico = new Diagnostico(); Descomentar si se requiere que limpie los controles del formulario
         } catch (Exception e) {
@@ -321,7 +329,7 @@ public class DiagnosticoControlador implements Serializable {
 
     public void setSelectPrioridadTriage(int selectPrioridadTriage) {
         this.selectPrioridadTriage = selectPrioridadTriage;
-    }   
+    }
 
     public List<CEstadopaciente> getListEstadoPaciente() {
         return listEstadoPaciente;
@@ -330,7 +338,7 @@ public class DiagnosticoControlador implements Serializable {
     public void setListEstadoPaciente(List<CEstadopaciente> listEstadoPaciente) {
         this.listEstadoPaciente = listEstadoPaciente;
     }
-    
+
     public CEstadopaciente getEstadoPaciente() {
         return estadoPaciente;
     }
@@ -434,7 +442,7 @@ public class DiagnosticoControlador implements Serializable {
     public void setEstadoSeleccionadoResumen(CEstado estadoSeleccionadoResumen) {
         this.estadoSeleccionadoResumen = estadoSeleccionadoResumen;
     }
-    
+
     public boolean isSkip() {
         return skip;
     }
@@ -444,58 +452,40 @@ public class DiagnosticoControlador implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) {
-        
+
         System.out.println("event.getNewStep(): " + event.getNewStep());
-        
-        if (event.getNewStep().equals("paciente") && personalSeleccionado == null){
+
+        if (event.getNewStep().equals("paciente") && personalSeleccionado == null) {
             skip = false;
             FacesMessages.error("¡Error!", "Debe seleccionar un responsable porfavor.");
             return "medico";
 
-        }else if(event.getNewStep().equals("diagnostico") && expedienteSeleccionado == null){
+        } else if (event.getNewStep().equals("diagnostico") && expedienteSeleccionado == null) {
             skip = false;
             FacesMessages.error("¡Error!", "Debe seleccionar un paciente porfavor.");
             return "paciente";
         }
-//        if (personalSeleccionado == null) {
-//            skip = false;
-//            FacesMessages.error("¡Error!", "Debe seleccionar un responsable porfavor.");
-//            return "medico";
-//        } else if (expedienteSeleccionado == null && personalSeleccionado != null) {
-//            if ( personalSeleccionado == null ){
-//                skip = false;
-//                FacesMessages.error("¡Error!", "Debe seleccionar un responsable porfavor.");
-//                return "medico";
-//            }else{
-//                skip = false;
-//                FacesMessages.error("¡Error!", "Debe seleccionar un paciente porfavor.");
-//                return "paciente";
-//            }
-//        }
-//        else {
-            if(event.getNewStep().equals("resumen")){ 
-                
-                tipoIngresoSeleccionadoResumen = cTipoingresoFacadeLocal.find(selectTipoIngresoId);                
-                prioridadSeleccionadaResumen = triagePrioridadFacadeLocal.find(selectPrioridadTriage);                        
-                estadoPacienteSeleccionadoResumen = estadoPacienteFacadeLocal.find(selectEstadoPacienteId);
-                estadoSeleccionadoResumen = estadoFacadeLocal.find(selectEstadoId);
-            }
-
-            if (skip) {
-                skip = false;   //reset in case user goes back
-                return "confirm";
-            } else {
-                return event.getNewStep();
-            }
+        if (event.getNewStep().equals("resumen")) {
+            tipoIngresoSeleccionadoResumen = cTipoingresoFacadeLocal.find(selectTipoIngresoId);
+            prioridadSeleccionadaResumen = triagePrioridadFacadeLocal.find(selectPrioridadTriage);
+            estadoPacienteSeleccionadoResumen = estadoPacienteFacadeLocal.find(selectEstadoPacienteId);
+            estadoSeleccionadoResumen = estadoFacadeLocal.find(selectEstadoId);
+        }
+        if (skip) {
+            skip = false;   //reset in case user goes back
+            return "resumen";
+        } else {
+            return event.getNewStep();
+        }
 //        }
     }
 
     public void onRowSelect(SelectEvent event) {
         medicoResponsable = personalSeleccionado.getUsuarioNombre() + " " + personalSeleccionado.getUsuarioApellido();
     }
-    
+
     public void onRowSelectItemPaciente(SelectEvent event) {
-        pacienteDiagnosticado =expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
+        pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
     }
 
 }
