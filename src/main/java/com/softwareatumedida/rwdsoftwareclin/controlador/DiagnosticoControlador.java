@@ -162,7 +162,7 @@ public class DiagnosticoControlador implements Serializable {
             diagnostico.setCEstadoPacienteId(estadoPacienteSeleccionadoResumen);
             diagnostico.setCEstadoId(estadoSeleccionadoResumen);
 
-            diagnosticoFacadeLocal.create(diagnostico);
+            diagnosticoFacadeLocal.edit(diagnostico);
             listar();
             FacesMessages.info("Aviso", "Se ha modificado el diagnostico de " + diagnostico.getPacienteId().getPacienteNombre() + " " + diagnostico.getPacienteId().getPacientePApellido() + " " + diagnostico.getPacienteId().getPacienteSApellido());
         } catch (Exception e) {
@@ -191,6 +191,7 @@ public class DiagnosticoControlador implements Serializable {
         titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";
         botonModificar = true;
         botonNuevo = false;
+        
     }
 
     public List<Diagnostico> getDiagnosticos() {
@@ -531,8 +532,13 @@ public class DiagnosticoControlador implements Serializable {
         diagnostico = diagnosticoSeleccionado;
         personalSeleccionado = diagnosticoSeleccionado.getUsuarioUsr();
         expedienteSeleccionado = diagnosticoSeleccionado.getPacienteId();
+        selectTipoIngresoId = diagnosticoSeleccionado.getCTipoIngresoId().getCTipoIngresoId();
+        selectPrioridadTriage = diagnosticoSeleccionado.getCPrioridadId().getCPrioridadId();
+        selectEstadoPacienteId = diagnosticoSeleccionado.getCEstadoPacienteId().getCEstadoPacienteId();
+        selectEstadoId = diagnosticoSeleccionado.getCEstadoId().getCEstadoId();
         
-        
+        medicoResponsable = personalSeleccionado.getUsuarioNombre() + " " + personalSeleccionado.getUsuarioApellido();
+        pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
         
     }
 
