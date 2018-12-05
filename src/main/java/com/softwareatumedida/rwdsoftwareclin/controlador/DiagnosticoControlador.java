@@ -21,7 +21,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import net.bootsfaces.utils.FacesMessages;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 
@@ -91,11 +93,14 @@ public class DiagnosticoControlador implements Serializable {
     private boolean botonNuevo;
     private boolean botonModificar;
 
+    private int ROWS_DATATABLE;
+
     @PostConstruct
     public void init() {
         diagnosticosSeleccionados = new ArrayList<>();
         diagnosticosFiltrados = new ArrayList<>();
         diagnostico = new Diagnostico();
+        ROWS_DATATABLE = 10;
         mostrarUsuarios();
         mostrarPacientes();
         catalogoTipoIngreso();
@@ -145,6 +150,7 @@ public class DiagnosticoControlador implements Serializable {
 
             diagnosticoFacadeLocal.create(diagnostico);
             listar();
+            setPageDataTable();
             FacesMessages.info("Aviso", "se ha generado el diagnostico de " + diagnostico.getPacienteId().getPacienteNombre() + " " + diagnostico.getPacienteId().getPacientePApellido() + " " + diagnostico.getPacienteId().getPacienteSApellido());
             //diagnostico = new Diagnostico(); Descomentar si se requiere que limpie los controles del formulario
         } catch (Exception e) {
@@ -153,7 +159,7 @@ public class DiagnosticoControlador implements Serializable {
 
     }
 
-    public void modificar(){
+    public void modificar() {
         try {
             diagnostico.setPacienteId(expedienteSeleccionado);
             diagnostico.setUsuarioUsr(personalSeleccionado);
@@ -169,7 +175,7 @@ public class DiagnosticoControlador implements Serializable {
             FacesMessages.fatal("Error de Sistema! ", "Favor de avisar al desarrollador del sistema");
         }
     }
-    
+
     public void verHeader() {
         titleHeader = "DATOS GENERALES";
     }
@@ -191,7 +197,7 @@ public class DiagnosticoControlador implements Serializable {
         titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";
         botonModificar = true;
         botonNuevo = false;
-        
+
     }
 
     public List<Diagnostico> getDiagnosticos() {
@@ -481,7 +487,15 @@ public class DiagnosticoControlador implements Serializable {
     public void setBotonModificar(boolean botonModificar) {
         this.botonModificar = botonModificar;
     }
-    
+
+    public int getROWS_DATATABLE() {
+        return ROWS_DATATABLE;
+    }
+
+    public void setROWS_DATATABLE(int ROWS_DATATABLE) {
+        this.ROWS_DATATABLE = ROWS_DATATABLE;
+    }
+
     public boolean isSkip() {
         return skip;
     }
@@ -526,9 +540,9 @@ public class DiagnosticoControlador implements Serializable {
     public void onRowSelectItemPaciente(SelectEvent event) {
         pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
     }
-    
+
     public void onRowSelectItemDiagnostico(SelectEvent event) {
-        
+
         diagnostico = diagnosticoSeleccionado;
         personalSeleccionado = diagnosticoSeleccionado.getUsuarioUsr();
         expedienteSeleccionado = diagnosticoSeleccionado.getPacienteId();
@@ -536,10 +550,21 @@ public class DiagnosticoControlador implements Serializable {
         selectPrioridadTriage = diagnosticoSeleccionado.getCPrioridadId().getCPrioridadId();
         selectEstadoPacienteId = diagnosticoSeleccionado.getCEstadoPacienteId().getCEstadoPacienteId();
         selectEstadoId = diagnosticoSeleccionado.getCEstadoId().getCEstadoId();
-        
+
         medicoResponsable = personalSeleccionado.getUsuarioNombre() + " " + personalSeleccionado.getUsuarioApellido();
         pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
-        
+
+    }
+
+    public void setPageDataTable() {
+        final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent(":formTable:singleDTDiag");
+        int first = 1;
+        if (d.getRowCount() % ROWS_DATATABLE == 0) {
+            first = (d.getRowCount() - ROWS_DATATABLE);
+        } else {
+            first = (d.getRowCount() / ROWS_DATATABLE) * ROWS_DATATABLE;
+        }
+        d.setFirst(first+1);
     }
 
 }

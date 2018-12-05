@@ -48,7 +48,7 @@
                                 value="#{diagnosticoControlador.diagnosticos}"
                                 paginator="true"                                
                                 reflow="true" 
-                                rows="10" 
+                                rows="#{diagnosticoControlador.ROWS_DATATABLE}" 
                                 widgetVar="diagnosticoTable"
                                 emptyMessage="No se encontraron coincidencias"
                                 selectionMode="single"
@@ -72,7 +72,7 @@
 
                                 <f:facet name="footer">
                                     <p:tooltip id="toolTipModificar" for="tipModificar" value="Permite modificar datos del diagnostico" position="top"/>
-                                    <p:commandButton id="tipModificar" update=":dialogNew,@(.testTable)" icon="fa fa-edit" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.modificarHeader()}"/>
+                                    <p:commandButton id="tipModificar" update=":dialogNew,@(.testTable),:formNew:wizard" icon="fa fa-edit" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.modificarHeader()}"/>
 
                                     <p:tooltip id="toolTipNuevo" for="tipNuevo" value="Ingresar diagnostico a expediente" position="top"/>
                                     <p:commandButton id="tipNuevo" update=":dialogNew" icon="fa fa-plus" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.nuevoHeader()}"/>                                    
@@ -89,7 +89,7 @@
                         <h:form id="formNew"> 
                             <b:growl id="growl" showDetail="true"/>
                             <b:messages id="messages" showDetail="true" auto-update="true"/>
-                            <p:wizard flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras">
+                            <p:wizard id="wizard" flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras">
                                 <p:tab id="medico" title="Responsable">
                                     <b:panel title="Especifique el responsable" look="info" collapsed="true" collapsible="false">
                                         <p:dataTable
