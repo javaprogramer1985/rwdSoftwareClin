@@ -583,20 +583,20 @@ public class DiagnosticoControlador implements Serializable {
         d.setFirst(first+1);
     }
     
-    public void onFilterChange(FilterEvent filterEvent){
-        filterState = filterEvent.getFilters();
-        expedientesFiltrados =(List<Expediente>) filterEvent.getData();
-    }
-    
-    public String filterState(String column) {
-        return (String) filterState.get(column);
-    }
-
-    public List<Expediente> getFilteredValue() {
-        return expedientesFiltrados;
-    }
-
-    public void setFilteredValue(List<Expediente> filteredValue) {
-        this.expedientesFiltrados = filteredValue;
-    }
+//    public void onFilterChange(FilterEvent filterEvent){
+//        filterState = filterEvent.getFilters();
+//        expedientesFiltrados = (List<Expediente>) filterEvent.getData();
+//    }
+//    
+//    public String filterState(String column) {
+//        return (String) filterState.get(column);
+//    }
+//
+//    public List<Expediente> getFilteredValue() {
+//        return expedientesFiltrados;
+//    }
+//
+//    public void setFilteredValue(List<Expediente> filteredValue) {
+//        this.expedientesFiltrados = filteredValue;
+//    }
 }

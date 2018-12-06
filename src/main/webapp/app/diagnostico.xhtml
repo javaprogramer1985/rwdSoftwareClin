@@ -144,9 +144,9 @@
                                             </f:facet>
                                             
                                             <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelectItemPaciente}"/>
-                                            <p:ajax event="filter" listener="#{diagnosticoControlador.onFilterChange}"/>
+                                            <!--p:ajax event="filter" listener="{diagnosticoControlador.onFilterChange}"/-->
                                             
-                                            <p:column filterBy="#{paciente.pacienteId}"  filterValue="#{diagnosticoControlador.filterState('paciente.pacienteId')}" headerText="Id">
+                                            <p:column filterBy="#{paciente.pacienteId}"  filterValue="#{diagnosticoControlador.expedienteSeleccionado.pacienteId}" headerText="Id">
                                                 <h:outputText value="#{paciente.pacienteId}"/>
                                             </p:column>                                            
                                             <p:column filterBy="#{paciente.pacienteNombre}" headerText="Nombre">
