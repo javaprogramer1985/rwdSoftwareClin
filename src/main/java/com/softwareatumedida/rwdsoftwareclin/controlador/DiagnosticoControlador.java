@@ -16,7 +16,9 @@ import com.softwareatumedida.rwdsoftwareclin.entity.Expediente;
 import com.softwareatumedida.rwdsoftwareclin.entity.Personal;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +28,7 @@ import net.bootsfaces.utils.FacesMessages;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.data.FilterEvent;
 
 @ManagedBean
 @ViewScoped
@@ -57,6 +60,8 @@ public class DiagnosticoControlador implements Serializable {
     Personal personalSeleccionado; //Medico responsable del diagnostico
 
     List<Expediente> expedientes;
+    private Map<String, Object> filterState = new HashMap<>();
+    List<Expediente> expedientesFiltrados;    
     Expediente expediente;
     Expediente expedienteSeleccionado; //Paciente diagnosticado
 
@@ -94,6 +99,7 @@ public class DiagnosticoControlador implements Serializable {
     private boolean botonModificar;
 
     private int ROWS_DATATABLE;
+    
 
     @PostConstruct
     public void init() {
@@ -169,6 +175,7 @@ public class DiagnosticoControlador implements Serializable {
             diagnostico.setCEstadoId(estadoSeleccionadoResumen);
 
             diagnosticoFacadeLocal.edit(diagnostico);
+            
             listar();
             FacesMessages.info("Aviso", "Se ha modificado el diagnostico de " + diagnostico.getPacienteId().getPacienteNombre() + " " + diagnostico.getPacienteId().getPacientePApellido() + " " + diagnostico.getPacienteId().getPacienteSApellido());
         } catch (Exception e) {
@@ -195,6 +202,7 @@ public class DiagnosticoControlador implements Serializable {
 
     public void modificarHeader() {
         titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";
+//        expedientesFiltrados.add(diagnosticoSeleccionado.getPacienteId());
         botonModificar = true;
         botonNuevo = false;
 
@@ -496,6 +504,14 @@ public class DiagnosticoControlador implements Serializable {
         this.ROWS_DATATABLE = ROWS_DATATABLE;
     }
 
+    public List<Expediente> getExpedientesFiltrados() {
+        return expedientesFiltrados;
+    }
+
+    public void setExpedientesFiltrados(List<Expediente> expedientesFiltrados) {
+        this.expedientesFiltrados = expedientesFiltrados;
+    }
+    
     public boolean isSkip() {
         return skip;
     }
@@ -540,7 +556,7 @@ public class DiagnosticoControlador implements Serializable {
     public void onRowSelectItemPaciente(SelectEvent event) {
         pacienteDiagnosticado = expedienteSeleccionado.getPacienteNombre() + " " + expedienteSeleccionado.getPacientePApellido() + " " + expedienteSeleccionado.getPacienteSApellido();
     }
-
+    
     public void onRowSelectItemDiagnostico(SelectEvent event) {
 
         diagnostico = diagnosticoSeleccionado;
@@ -566,5 +582,21 @@ public class DiagnosticoControlador implements Serializable {
         }
         d.setFirst(first+1);
     }
+    
+    public void onFilterChange(FilterEvent filterEvent){
+        filterState = filterEvent.getFilters();
+        expedientesFiltrados =(List<Expediente>) filterEvent.getData();
+    }
+    
+    public String filterState(String column) {
+        return (String) filterState.get(column);
+    }
 
+    public List<Expediente> getFilteredValue() {
+        return expedientesFiltrados;
+    }
+
+    public void setFilteredValue(List<Expediente> filteredValue) {
+        this.expedientesFiltrados = filteredValue;
+    }
 }
