@@ -89,7 +89,7 @@
                         <h:form id="formNew"> 
                             <b:growl id="growl" showDetail="true"/>
                             <b:messages id="messages" showDetail="true" auto-update="true"/>
-                            <p:wizard id="wizard" flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras">
+                            <p:wizard id="wizard" widgetVar="wizardDiagnostico" flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras" >
                                 <p:tab id="medico" title="Responsable">
                                     <b:panel title="Especifique el responsable" look="info" collapsed="true" collapsible="false">
                                         <p:dataTable
@@ -122,6 +122,9 @@
                                 </p:tab>
                                 <p:tab id="paciente" title="Paciente">
                                     <b:panel title="Especifique el paciente" look="info" collapsed="true" collapsible="false">
+                                        
+                                        <p:remoteCommand name="onload" oncomplete="PF('informacionPaciente').filter()" actionListener="#{diagnosticoControlador.mostrarPacientes()}" update=":formNew:dataTablePaciente" autoRun="true"/>
+                                        
                                         <p:dataTable
                                             id="dataTablePaciente"
                                             var="paciente"
@@ -139,14 +142,13 @@
                                             <f:facet name="header">
                                                 <p:outputPanel style="text-align: left">
                                                     <h:outputText value="Busqueda general"/>
-                                                    <p:inputText id="globalFilter" onkeyup="PF('informacionPaciente').filter()" placeholder="Ingrese sus parametros"/>
+                                                    <p:inputText id="globalFilter" onkeyup="PF('informacionPaciente').filter()" placeholder="Ingrese sus parametros" />
                                                 </p:outputPanel>
                                             </f:facet>
                                             
                                             <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelectItemPaciente}"/>
-                                            <!--p:ajax event="filter" listener="{diagnosticoControlador.onFilterChange}"/-->
                                             
-                                            <p:column filterBy="#{paciente.pacienteId}"  filterValue="#{diagnosticoControlador.expedienteSeleccionado.pacienteId}" headerText="Id">
+                                            <p:column filterBy="#{paciente.pacienteId}" filterValue="#{diagnosticoControlador.expedienteSeleccionado.pacienteId}" headerText="Id">
                                                 <h:outputText value="#{paciente.pacienteId}"/>
                                             </p:column>                                            
                                             <p:column filterBy="#{paciente.pacienteNombre}" headerText="Nombre">
@@ -318,8 +320,8 @@
 
                                         </b:panelGrid>
                                         <b:panelGrid colSpans="12">
-                                            <p:commandButton value="Modificar diagnostico" actionListener="#{diagnosticoControlador.modificar()}" rendered="#{diagnosticoControlador.botonModificar}" oncomplete="$('.nuevoDiagnostico').modal('hide')" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:singleDataTable,:formNew:growl" process="@this"/>
-                                            <p:commandButton value="Guardar diagnostico" actionListener="#{diagnosticoControlador.nuevo()}" rendered="#{diagnosticoControlador.botonNuevo}" oncomplete="$('.nuevoDiagnostico').modal('hide')" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:growl" process="@this"/>
+                                            <p:commandButton value="Modificar diagnostico" actionListener="#{diagnosticoControlador.modificar()}" rendered="#{diagnosticoControlador.botonModificar}" oncomplete="$('.nuevoDiagnostico').modal('hide');PF('wizardDiagnostico').loadStep('medico', false)" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:singleDataTable,:formNew:growl" process="@this"/>
+                                            <p:commandButton value="Guardar diagnostico" actionListener="#{diagnosticoControlador.nuevo()}" rendered="#{diagnosticoControlador.botonNuevo}" oncomplete="$('.nuevoDiagnostico').modal('hide');PF('wizardDiagnostico').loadStep('medico', false)" class="ui-g-12" update=":formTable:singleDTDiag,:formNew:growl" process="@this"/>
                                         </b:panelGrid>
                                     </b:panel>
                                 </p:tab>

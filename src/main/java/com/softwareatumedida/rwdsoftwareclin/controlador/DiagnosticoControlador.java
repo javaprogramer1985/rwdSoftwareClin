@@ -25,10 +25,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import net.bootsfaces.utils.FacesMessages;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.data.FilterEvent;
+import org.primefaces.event.data.PageEvent;
+import org.primefaces.util.ComponentUtils;
 
 @ManagedBean
 @ViewScoped
@@ -198,14 +202,17 @@ public class DiagnosticoControlador implements Serializable {
         diagnostico = new Diagnostico();
         botonModificar = false;
         botonNuevo = true;
+        listar();
+        //Colocamos la primera pestaña del wizard visible
+        PrimeFaces.current().executeScript("PF('wizardDiagnostico').loadStep('medico', false)");
     }
 
     public void modificarHeader() {
         titleHeader = "MODIFIQUE LOS DATOS NECESARIOS";
-//        expedientesFiltrados.add(diagnosticoSeleccionado.getPacienteId());
         botonModificar = true;
         botonNuevo = false;
-
+        //Colocamos la primera pestaña del wizard visible
+        PrimeFaces.current().executeScript("PF('wizardDiagnostico').loadStep('medico', false)");
     }
 
     public List<Diagnostico> getDiagnosticos() {
@@ -524,6 +531,9 @@ public class DiagnosticoControlador implements Serializable {
 
         System.out.println("event.getNewStep(): " + event.getNewStep());
 
+        //expedienteSeleccionado = diagnosticoSeleccionado.getPacienteId();
+        //resetValue();
+        
         if (event.getNewStep().equals("paciente") && personalSeleccionado == null) {
             skip = false;
             FacesMessages.error("¡Error!", "Debe seleccionar un responsable porfavor.");
@@ -583,6 +593,12 @@ public class DiagnosticoControlador implements Serializable {
         d.setFirst(first+1);
     }
     
+    public void resetValue(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        DataTable table = (DataTable)facesContext.getViewRoot().findComponent( "dataTablePaciente");
+        table.resetValue();
+    }
+    
 //    public void onFilterChange(FilterEvent filterEvent){
 //        filterState = filterEvent.getFilters();
 //        expedientesFiltrados = (List<Expediente>) filterEvent.getData();
@@ -599,4 +615,8 @@ public class DiagnosticoControlador implements Serializable {
 //    public void setFilteredValue(List<Expediente> filteredValue) {
 //        this.expedientesFiltrados = filteredValue;
 //    }
+    
+    public void onPageEvent(PageEvent event){
+        System.out.println("Evento pagination");
+    }
 }
