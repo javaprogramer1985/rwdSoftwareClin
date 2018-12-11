@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <style type="text/css">
+            .value {
+                font-weight: bold;
+            }
+
+            .ui-datatable {
+                margin-bottom: 25px
+            }
+
+            .ui-datatable .ui-datatable-footer {
+                text-align:left;
+            }
+
+            .ui-datalist ul {
+                padding: 0 0 0 10px;
+                margin: 5px 0;
+            }
+
+            .ui-datatable .ui-button-icon-only .ui-button-text {
+                padding: 0;
+                line-height: 1.2;
+            }
+        </style>
+
+        <ui:composition template="./../Templates/plantillaPrincipal.xhtml">
+            <ui:define name="content">
+                <b:column col-sm="9" offset-sm="4" col-md="10" offset="2" styleClass="main"> 
+                    <b:panel 
+                        title="REALIAZAR OPERACIONES EN EL PERSONAL" 
+                        collapsed="true" 
+                        collapsible="false" 
+                        look="info">
+                        <h:form id="formTable">
+                            <p:dataTable 
+                                id="singleDTUsuario"
+                                var="usuario"
+                                value="#{personalControlador.personal}"
+                                paginator="true"                                
+                                reflow="true" 
+                                rows="#{personalControlador.ROWS_DATATABLE}" 
+                                widgetVar="diagnosticoTable"
+                                emptyMessage="No se encontraron coincidencias"
+                                selectionMode="single"
+                                selection="#{personalControlador.personalSeleccionado}"
+                                rowKey="#{usuario.usuarioUsr}"
+
+                                >
+
+                                <p:ajax event="rowSelect" listener="#{personalControlador.onRowSelectItemUsuario}"/>
+                                
+                                <p:column filterBy="#{usuario.usuarioUsr}" headerText="Usuario">
+                                    <h:outputText value="#{usuario.usuarioUsr}"/>
+                                </p:column>
+                                
+                                <p:column filterBy="#{usuario.usuarioNombre}" headerText="Nombre(s)">
+                                    <h:outputText value="#{usuario.usuarioNombre}"/>
+                                </p:column>
+
+                                <p:column filterBy="#{usuario.usuarioApellido}" headerText="Apellidos">
+                                    <h:outputText value="#{usuario.usuarioApellido}"/>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:tooltip id="toolTipModificar" for="tipModificar" value="Permite modificar datos del diagnostico" position="top"/>
+                                    <p:commandButton id="tipModificar"  icon="fa fa-edit" update=":dialogNewUser,:formUser" oncomplete="$('.nuevoUsuario').modal()" actionListener="#{personalControlador.modificarHeader()}"/>
+
+                                    <p:tooltip id="toolTipNuevo" for="tipNuevo" value="Ingresar diagnostico a expediente" position="top"/>
+                                    <p:commandButton id="tipNuevo" icon="fa fa-plus" update=":dialogNewUser,:formUser" oncomplete="$('.nuevoUsuario').modal()" actionListener="#{personalControlador.nuevoHeader()}"/>                                    
+                                </f:facet>
+                            </p:dataTable>
+                        </h:form>                        
+                    </b:panel>   
+                    <b:modal                             
+                        id="dialogNewUser"
+                        title="#{personalControlador.titleHeader}"
+                        styleClass="nuevoUsuario"
+                        backdrop="false">
+                        <h:form id="formUser">
+                            <b:growl id="growl" showDetail="true"/>
+                            <b:messages id="messages" showDetail="true" auto-update="true"/>
+                            
+                            
+                        </h:form>
+                    </b:modal>
+                </b:column>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
