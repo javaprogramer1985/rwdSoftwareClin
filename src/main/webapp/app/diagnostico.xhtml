@@ -148,7 +148,7 @@
                                             
                                             <p:ajax event="rowSelect" listener="#{diagnosticoControlador.onRowSelectItemPaciente}"/>
                                             
-                                            <p:column filterBy="#{paciente.pacienteId}" filterValue="#{diagnosticoControlador.expedienteSeleccionado.pacienteId}" headerText="Id">
+                                            <p:column filterBy="#{paciente.pacienteId}" filterValue="#{diagnosticoControlador.expedienteSeleccionado.pacienteId}" filterMatchMode="exact" headerText="Id">
                                                 <h:outputText value="#{paciente.pacienteId}"/>
                                             </p:column>                                            
                                             <p:column filterBy="#{paciente.pacienteNombre}" headerText="Nombre">
