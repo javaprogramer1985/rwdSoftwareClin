@@ -105,10 +105,10 @@
                                 backLabel="Atrás">
 
                                 <p:tab 
-                                    id="datosgenerales"
-                                    title="Informacion general">
+                                    id="datosmedico"
+                                    title="Médico">
                                     <b:panel
-                                        title="DATOS DEL MÉDICO"
+                                        title=""
                                         look="info"
                                         collapsed="true"
                                         collapsible="fase"
@@ -128,107 +128,168 @@
                                             <h:outputText id="cedula" value="#{recetaControlador.cedulaprofesional}"/>   
                                         </b:panelGrid>
                                     </b:panel>
+                                </p:tab>
 
+                                <p:tab 
+                                    id="datospaciente"
+                                    title="Paciente">
                                     <b:panel
-                                        title="PACIENTE"
+                                        title=""
                                         look="info"
                                         collapsed="true"
                                         collapsible="fase"
                                         >
-                                        <p:dataTable
-                                            id="dataTablePaciente"
-                                            var="expediente"
-                                            value="#{recetaControlador.expedientes}"
-                                            reflow="true"
-                                            rows="5"
-                                            paginator="true"
-                                            selectionMode="single"
-                                            widgetVar="informacionPaciente"
-                                            rowKey="#{expediente.pacienteId}"
-                                            selection="#{recetaControlador.expedienteSeleccionado}"
+                                        <b:panel
+                                            title="PACIENTE"
+                                            look="info"
+                                            collapsed="true"
+                                            collapsible="fase"
                                             >
+                                            <p:dataTable
+                                                id="dataTablePaciente"
+                                                var="expediente"
+                                                value="#{recetaControlador.expedientes}"
+                                                reflow="true"
+                                                rows="5"
+                                                paginator="true"
+                                                selectionMode="single"
+                                                widgetVar="informacionPaciente"
+                                                rowKey="#{expediente.pacienteId}"
+                                                selection="#{recetaControlador.expedienteSeleccionado}"
+                                                >
 
-                                            <p:ajax event="rowSelect" listener="#{recetaControlador.onPacienteSelect}" update="formNewReceta:dataTableDiagnostico"/>
-                                                    
-                                            <p:column filterBy="#{expediente.pacienteId}" filterMatchMode="exact" headerText="Folio Expediente">
-                                                <h:outputText value="#{expediente.pacienteId}"/>
-                                            </p:column>                                            
-                                            <p:column filterBy="#{expediente.pacienteNombre} #{expediente.pacientePApellido} #{expediente.pacienteSApellido}" headerText="Nombre">
-                                                <h:outputText value="#{expediente.pacienteNombre} #{expediente.pacientePApellido} #{expediente.pacienteSApellido}"/>
-                                            </p:column>
+                                                <p:ajax event="rowSelect" listener="#{recetaControlador.onPacienteSelect}" update="formNewReceta:dataTableDiagnostico"/>
 
-                                        </p:dataTable>                                            
-                                    </b:panel>
+                                                <p:column filterBy="#{expediente.pacienteId}" filterMatchMode="exact" headerText="Folio Expediente">
+                                                    <h:outputText value="#{expediente.pacienteId}"/>
+                                                </p:column>                                            
+                                                <p:column filterBy="#{expediente.pacienteNombre} #{expediente.pacientePApellido} #{expediente.pacienteSApellido}" headerText="Nombre">
+                                                    <h:outputText value="#{expediente.pacienteNombre} #{expediente.pacientePApellido} #{expediente.pacienteSApellido}"/>
+                                                </p:column>
 
-                                    <b:panel
-                                        title="DIAGNÓSTICO"
-                                        look="info"
-                                        collapsed="true"
-                                        collapsible="fase"
-                                        >
-                                        <p:dataTable
-                                            id="dataTableDiagnostico"
-                                            var="diagnostico"
-                                            value="#{recetaControlador.diagnosticos}"
-                                            reflow="true"
-                                            rows="5"
-                                            paginator="true"
-                                            selectionMode="single"
-                                            widgetVar="diagnosticoPaciente"
-                                            rowKey="#{diagnostico.rxId}"
-                                            selection="#{recetaControlador.diagnosticoSeleccionado}"
+                                            </p:dataTable>                                            
+                                        </b:panel>
+
+                                        <b:panel
+                                            title="DIAGNÓSTICO"
+                                            look="info"
+                                            collapsed="true"
+                                            collapsible="fase"
                                             >
-                                            
-                                            <p:column filterBy="#{diagnostico.pacienteId.pacienteId}" headerText="Folio Expediente">
-                                                <h:outputText value="#{diagnostico.pacienteId.pacienteId}"/>
-                                            </p:column>
-                                            
-                                            <p:column filterBy="#{diagnostico.rxId}" headerText="Folio Diagnostico">
-                                                <h:outputText value="#{diagnostico.rxId}"/>
-                                            </p:column>
-                                            
-                                            <p:column filterBy="#{diagnostico.rxMConsulta}" headerText="Motivo de consulta">
-                                                <h:outputText value="#{diagnostico.rxMConsulta}"/>
-                                            </p:column>
-                                        </p:dataTable>
-                                    </b:panel>
+                                            <p:dataTable
+                                                id="dataTableDiagnostico"
+                                                var="diagnostico"
+                                                value="#{recetaControlador.diagnosticos}"
+                                                reflow="true"
+                                                rows="5"
+                                                paginator="true"
+                                                selectionMode="single"
+                                                widgetVar="diagnosticoPaciente"
+                                                rowKey="#{diagnostico.rxId}"
+                                                selection="#{recetaControlador.diagnosticoSeleccionado}"
+                                                >
 
-                                    <b:panel
-                                        title="PRESCRIPCIÓN"
-                                        look="info"
-                                        collapsed="true"
-                                        collapsible="fase"
-                                        >
-                                        <b:panelGrid colSpans="5,7">
-                                            <h:outputLabel value="Fecha de expedición" for="expedicion"/>
-                                            <h:outputText id="expedicion" value="#{recetaControlador.receta.recetaFecExpedicion}"/> 
-                                            
-                                            <p:outputLabel value="Peso" for="peso" class="ui-g-12"/>
-                                            <p:inputText id="peso" value="#{recetaControlador.receta.recetaPeso}" class="ui-g-12"/>
-                                            
-                                            <p:outputLabel value="Talla" for="talla" class="ui-g-12"/>
-                                            <p:inputText id="talla" value="#{recetaControlador.receta.recetaTalla}" class="ui-g-12"/>
-                                            
-                                            <p:outputLabel value="T/A" for="tension" class="ui-g-12"/>
-                                            <p:inputText id="tension" value="#{recetaControlador.receta.recetaTa}" class="ui-g-12"/>
-                                            
-                                            <p:outputLabel value="IMC" for="imc" class="ui-g-12"/>
-                                            <p:inputText id="imc" value="#{recetaControlador.receta.recetaImc}" class="ui-g-12"/>
-                                            
-                                        </b:panelGrid>
-                                    </b:panel>
+                                                <p:column filterBy="#{diagnostico.rxId}" headerText="Folio Diagnostico">
+                                                    <h:outputText value="#{diagnostico.rxId}"/>
+                                                </p:column>
 
+                                                <p:column filterBy="#{diagnostico.rxMConsulta}" headerText="Motivo de consulta">
+                                                    <h:outputText value="#{diagnostico.rxMConsulta}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </b:panel>
+
+                                        <b:panel
+                                            title="DATOS ADICIONALES"
+                                            look="info"
+                                            collapsed="true"
+                                            collapsible="fase"
+                                            >
+                                            <b:panelGrid colSpans="5,7">
+                                                <h:outputLabel value="Fecha de expedición" for="expedicion"/>
+                                                <h:outputText id="expedicion" value="#{recetaControlador.receta.recetaFecExpedicion}"/> 
+
+                                                <p:outputLabel value="Peso" for="peso" class="ui-g-12"/>
+                                                <p:inputText id="peso" value="#{recetaControlador.receta.recetaPeso}" class="ui-g-12"/>
+
+                                                <p:outputLabel value="Talla" for="talla" class="ui-g-12"/>
+                                                <p:inputText id="talla" value="#{recetaControlador.receta.recetaTalla}" class="ui-g-12"/>
+
+                                                <p:outputLabel value="T/A" for="tension" class="ui-g-12"/>
+                                                <p:inputText id="tension" value="#{recetaControlador.receta.recetaTa}" class="ui-g-12"/>
+
+                                                <p:outputLabel value="IMC" for="imc" class="ui-g-12"/>
+                                                <p:inputText id="imc" value="#{recetaControlador.receta.recetaImc}" class="ui-g-12"/>
+
+                                            </b:panelGrid>
+                                        </b:panel>
+                                    </b:panel>                                      
                                 </p:tab>
 
                                 <p:tab 
                                     id="prescripcion"
-                                    title="Medicamentos prescritos">
+                                    title="Prescripción">
                                     <b:panel
                                         title="Captura de indicaciones y medicamentos"
                                         look="info"
                                         collapsed="true"
                                         collapsible="fase"
                                         >
+                                        <b:panel
+                                            title="Ingresa los datos del medicamento"
+                                            look="info"
+                                            collapsed="true"
+                                            collapsible="fase"
+                                            >
+                                            <b:panelGrid colSpans="5,7">
+                                                <p:outputLabel value="Medicamento" for="medicamento" class="ui-g-12"/>
+                                                <p:inputText id="medicamento" value="#{recetaControlador.prescripcion.prescripcionMedicamento}" class="ui-g-12"/>
+                                                <p:outputLabel value="Frecuencia y duración" for="frecuencia" class="ui-g-12"/>
+                                                <p:inputText id="frecuencia" value="#{recetaControlador.prescripcion.prescripcionFrecDuracion}" class="ui-g-12"/>
+                                                <p:outputLabel value="Instrucciones" for="instrucciones" class="ui-g-12"/>
+                                                <p:inputText id="instrucciones" value="#{recetaControlador.prescripcion.prescripcionInstrucciones}" class="ui-g-12"/>
+                                                
+                                                <p:commandButton value="Agregar" 
+                                                                 update = ""
+                                                                 actionListener="#{recetaControlador.agregar()}" 
+                                                                 class="ui-g-12"
+                                            </b:panelGrid>
+                                            
+                                        </b:panel>
+                                        
+                                        <b:panel
+                                            title="Medicamentos prescritos"
+                                            look="info"
+                                            collapsed="true"
+                                            collapsible="fase"
+                                            >
+                                            <p:dataTable
+                                                id="dataTablePrescripcion"
+                                                var="prescripcion"
+                                                value="#{recetaControlador.prescripciones}"
+                                                reflow="true"
+                                                rows="5"
+                                                paginator="true"
+                                                selectionMode="single"
+                                                widgetVar="informacionPrescripcion"
+                                                rowKey="#{prescripcion.prescripcionId}"
+                                                selection="#{recetaControlador.prescripcionSeleccionada}"
+                                                >
+                                                
+                                                <p:column filterBy="#{prescripcion.prescripcionMedicamento}" headerText="Medicamento">
+                                                    <h:outputText value="#{prescripcion.prescripcionMedicamento}"/>
+                                                </p:column>                                            
+                                                
+                                                <p:column filterBy="#{prescripcion.prescripcionFrecDuracion}" headerText="Frecuencia y duración">
+                                                    <h:outputText value="#{prescripcion.prescripcionFrecDuracion}"/>
+                                                </p:column>                                            
+                                                
+                                                <p:column filterBy="#{prescripcion.prescripcionInstrucciones}" headerText="indicaciones">
+                                                    <h:outputText value="#{prescripcion.prescripcionInstrucciones}"/>
+                                                </p:column>                                            
+                                                
+                                            </p:dataTable>
+                                        </b:panel>
 
                                     </b:panel>                                        
                                 </p:tab>

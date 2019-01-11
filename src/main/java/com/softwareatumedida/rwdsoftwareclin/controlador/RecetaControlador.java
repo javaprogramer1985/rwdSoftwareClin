@@ -7,6 +7,7 @@ import com.softwareatumedida.rwdsoftwareclin.entity.Diagnostico;
 import com.softwareatumedida.rwdsoftwareclin.entity.Especialidad;
 import com.softwareatumedida.rwdsoftwareclin.entity.Expediente;
 import com.softwareatumedida.rwdsoftwareclin.entity.Personal;
+import com.softwareatumedida.rwdsoftwareclin.entity.Prescripcion;
 import com.softwareatumedida.rwdsoftwareclin.entity.Receta;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,6 +48,11 @@ public class RecetaControlador implements Serializable {
     private List<Diagnostico> diagnosticos;
     private List<Diagnostico> diagnosticosAux;
     private Diagnostico diagnosticoSeleccionado;
+    
+    private Prescripcion prescripcion;
+    private Prescripcion prescripcionSeleccionada;
+    private List<Prescripcion> prescripciones;
+    
     
     private boolean skip;
     private String especialidad = "";
@@ -201,6 +207,31 @@ public class RecetaControlador implements Serializable {
     public void setDiagnosticoSeleccionado(Diagnostico diagnosticoSeleccionado) {
         this.diagnosticoSeleccionado = diagnosticoSeleccionado;
     }
+
+    public Prescripcion getPrescripcion() {
+        return prescripcion;
+    }
+
+    public void setPrescripcion(Prescripcion prescripcion) {
+        this.prescripcion = prescripcion;
+    }
+
+    public Prescripcion getPrescripcionSeleccionada() {
+        return prescripcionSeleccionada;
+    }
+
+    public void setPrescripcionSeleccionada(Prescripcion prescripcionSeleccionada) {
+        this.prescripcionSeleccionada = prescripcionSeleccionada;
+    }
+
+    public List<Prescripcion> getPrescripciones() {
+        return prescripciones;
+    }
+
+    public void setPrescripciones(List<Prescripcion> prescripciones) {
+        this.prescripciones = prescripciones;
+    }
+    
     
     public boolean isSkip() {
         return skip;
