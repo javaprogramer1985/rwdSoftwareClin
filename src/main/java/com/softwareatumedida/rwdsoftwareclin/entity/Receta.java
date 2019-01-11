@@ -6,8 +6,13 @@
 package com.softwareatumedida.rwdsoftwareclin.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,7 +77,8 @@ public class Receta implements Serializable {
     @OneToMany(mappedBy = "recetaId")
     private Collection<Prescripcion> prescripcionCollection;
 
-    public Receta() {
+    public Receta() {      
+        recetaFecExpedicion = new java.sql.Date(Calendar.getInstance().getTime().getTime());
     }
 
     public Receta(Integer recetaId) {

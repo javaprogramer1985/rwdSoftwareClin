@@ -25,9 +25,11 @@ public interface DiagnosticoFacadeLocal {
     Diagnostico find(Object id);
 
     List<Diagnostico> findAll();
-
+    
     List<Diagnostico> findRange(int[] range);
 
     int count();
+    
+    
     
 }

@@ -62,14 +62,14 @@
                                     <h:outputText value="#{diagnostico.rxId}"/>
                                 </p:column>
                                 
-                                <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre}" headerText="Nombre(s)">
-                                    <h:outputText value="#{diagnostico.usuarioUsr.usuarioNombre}"/>
+                                <p:column filterBy="#{diagnostico.usuarioUsr.usuarioNombre} #{diagnostico.usuarioUsr.usuarioApellido}" headerText="Médico">
+                                    <h:outputText value="#{diagnostico.usuarioUsr.usuarioNombre} #{diagnostico.usuarioUsr.usuarioApellido}"/>
                                 </p:column>
-
-                                <p:column filterBy="#{diagnostico.usuarioUsr.usuarioApellido}" headerText="Apellidos">
-                                    <h:outputText value="#{diagnostico.usuarioUsr.usuarioApellido}"/>
+                                
+                                <p:column filterBy="#{diagnostico.pacienteId.pacienteNombre} #{diagnostico.pacienteId.pacientePApellido} #{diagnostico.pacienteId.pacienteSApellido}" headerText="Paciente">
+                                    <h:outputText value="#{diagnostico.pacienteId.pacienteNombre} #{diagnostico.pacienteId.pacientePApellido} #{diagnostico.pacienteId.pacienteSApellido}" />
                                 </p:column>
-
+                                
                                 <f:facet name="footer">
                                     <p:tooltip id="toolTipModificar" for="tipModificar" value="Permite modificar datos del diagnostico" position="top"/>
                                     <p:commandButton id="tipModificar" update=":dialogNew,@(.testTable),:formNew:wizard" icon="fa fa-edit" oncomplete="$('.nuevoDiagnostico').modal()" actionListener="#{diagnosticoControlador.modificarHeader()}"/>
@@ -89,7 +89,13 @@
                         <h:form id="formNew"> 
                             <b:growl id="growl" showDetail="true"/>
                             <b:messages id="messages" showDetail="true" auto-update="true"/>
-                            <p:wizard id="wizard" widgetVar="wizardDiagnostico" flowListener="#{diagnosticoControlador.onFlowProcess}" nextLabel="Siguiente" backLabel="Atras" >
+                            <p:wizard 
+                                id="wizard" 
+                                widgetVar="wizardDiagnostico" 
+                                flowListener="#{diagnosticoControlador.onFlowProcess}" 
+                                nextLabel="Siguiente" 
+                                backLabel="Atrás" >
+                                
                                 <p:tab id="medico" title="Responsable">
                                     <b:panel title="Especifique el responsable" look="info" collapsed="true" collapsible="false">
                                         <p:dataTable

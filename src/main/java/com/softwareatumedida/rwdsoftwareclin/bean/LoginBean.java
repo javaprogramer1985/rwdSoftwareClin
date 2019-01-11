@@ -5,7 +5,9 @@
  */
 package com.softwareatumedida.rwdsoftwareclin.bean;
 
+import com.softwareatumedida.rwdsoftwareclin.ejb.PersonalFacadeLocal;
 import com.softwareatumedida.rwdsoftwareclin.ejb.UsuariosFacadeLocal;
+import com.softwareatumedida.rwdsoftwareclin.entity.Personal;
 import com.softwareatumedida.rwdsoftwareclin.entity.Usuarios;
 import com.softwareatumedida.rwdsoftwareclin.util.Codificador;
 import java.io.Serializable;
@@ -25,12 +27,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class LoginBean implements Serializable {
 
     @EJB
-    UsuariosFacadeLocal usuariosFacadeLocal;
-    Usuarios usuario;
+    PersonalFacadeLocal usuariosFacadeLocal;
+    Personal usuario;
 
     @PostConstruct
     public void init() {
-        usuario = new Usuarios();
+        usuario = new Personal();
     }
     
     public void login() {
@@ -42,7 +44,7 @@ public class LoginBean implements Serializable {
         
         usuario.setUsuarioPass(clavecodificada);
         
-        Usuarios us=null;
+        Personal us=null;
         String redireccion=null;
         
         try {            
@@ -73,11 +75,11 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage("loginForm:password", msg);
     }
 
-    public Usuarios getUsuario() {
+    public Personal getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuarios usuario) {
+    public void setUsuario(Personal usuario) {
         this.usuario = usuario;
     }
     
