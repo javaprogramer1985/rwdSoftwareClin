@@ -250,9 +250,9 @@
                                                 <p:inputText id="instrucciones" value="#{recetaControlador.prescripcion.prescripcionInstrucciones}" class="ui-g-12"/>
                                                 
                                                 <p:commandButton value="Agregar" 
-                                                                 update = ""
+                                                                 update = "formNewReceta:dataTablePrescripcion"
                                                                  actionListener="#{recetaControlador.agregar()}" 
-                                                                 class="ui-g-12"
+                                                                 class="ui-g-12"/>
                                             </b:panelGrid>
                                             
                                         </b:panel>
@@ -275,6 +275,10 @@
                                                 rowKey="#{prescripcion.prescripcionId}"
                                                 selection="#{recetaControlador.prescripcionSeleccionada}"
                                                 >
+                                                
+                                                <p:column filterBy="#{prescripcion.prescripcionId}" headerText="No.">
+                                                    <h:outputText value="#{prescripcion.prescripcionId}"/>
+                                                </p:column>                                            
                                                 
                                                 <p:column filterBy="#{prescripcion.prescripcionMedicamento}" headerText="Medicamento">
                                                     <h:outputText value="#{prescripcion.prescripcionMedicamento}"/>

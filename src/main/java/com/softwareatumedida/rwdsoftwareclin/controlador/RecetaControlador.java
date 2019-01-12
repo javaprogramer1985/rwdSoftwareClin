@@ -10,6 +10,7 @@ import com.softwareatumedida.rwdsoftwareclin.entity.Personal;
 import com.softwareatumedida.rwdsoftwareclin.entity.Prescripcion;
 import com.softwareatumedida.rwdsoftwareclin.entity.Receta;
 import java.io.Serializable;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,6 +67,8 @@ public class RecetaControlador implements Serializable {
         usuarioLogueado = (Personal)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("SessionUsuario");
         diagnosticoSeleccionado = new Diagnostico();        
         receta = new Receta();
+        prescripciones = new ArrayList<>();
+        prescripcion = new Prescripcion();
         
         List<Especialidad> especialidades = (List)usuarioLogueado.getEspecialidadCollection();
         if ( especialidades.size() > 1 ){
@@ -261,5 +264,10 @@ public class RecetaControlador implements Serializable {
                 diagnosticos.add(item);
             }
         }
+    }
+    public void agregar(){
+        prescripcion.setPrescripcionId(prescripciones.size()+1);
+        prescripciones.add(prescripcion);
+        prescripcion = new Prescripcion();
     }
 }
