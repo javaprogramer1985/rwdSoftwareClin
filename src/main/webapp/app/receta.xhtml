@@ -248,15 +248,15 @@
                                                 <p:inputText id="frecuencia" value="#{recetaControlador.prescripcion.prescripcionFrecDuracion}" class="ui-g-12"/>
                                                 <p:outputLabel value="Instrucciones" for="instrucciones" class="ui-g-12"/>
                                                 <p:inputText id="instrucciones" value="#{recetaControlador.prescripcion.prescripcionInstrucciones}" class="ui-g-12"/>
-                                                
+
                                                 <p:commandButton value="Agregar" 
                                                                  update = "formNewReceta:dataTablePrescripcion"
                                                                  actionListener="#{recetaControlador.agregar()}" 
                                                                  class="ui-g-12"/>
                                             </b:panelGrid>
-                                            
+
                                         </b:panel>
-                                        
+
                                         <b:panel
                                             title="Medicamentos prescritos"
                                             look="info"
@@ -275,23 +275,23 @@
                                                 rowKey="#{prescripcion.prescripcionId}"
                                                 selection="#{recetaControlador.prescripcionSeleccionada}"
                                                 >
-                                                
+
                                                 <p:column filterBy="#{prescripcion.prescripcionId}" headerText="No.">
                                                     <h:outputText value="#{prescripcion.prescripcionId}"/>
                                                 </p:column>                                            
-                                                
+
                                                 <p:column filterBy="#{prescripcion.prescripcionMedicamento}" headerText="Medicamento">
                                                     <h:outputText value="#{prescripcion.prescripcionMedicamento}"/>
                                                 </p:column>                                            
-                                                
+
                                                 <p:column filterBy="#{prescripcion.prescripcionFrecDuracion}" headerText="Frecuencia y duración">
                                                     <h:outputText value="#{prescripcion.prescripcionFrecDuracion}"/>
                                                 </p:column>                                            
-                                                
+
                                                 <p:column filterBy="#{prescripcion.prescripcionInstrucciones}" headerText="indicaciones">
                                                     <h:outputText value="#{prescripcion.prescripcionInstrucciones}"/>
                                                 </p:column>                                            
-                                                
+
                                             </p:dataTable>
                                         </b:panel>
 
@@ -307,7 +307,19 @@
                                         collapsed="true"
                                         collapsible="fase"
                                         >
-
+                                        <b:panelGrid colSpans="12" style="text-align: center">
+                                            <h:outputText value="#{recetaControlador.usuarioLogueado.empresaId.empresaNombre}" class="ui-g-12"/>
+                                            <h:outputText id="medicamentovista" value="#{recetaControlador.usuarioLogueado.usuarioNombre} #{recetaControlador.usuarioLogueado.usuarioApellido}" class="ui-g-12"/>
+                                            <h:outputText id="especialidadvista" value="Especialidad: #{recetaControlador.especialidad}" class="ui-g-12"/>                                           
+                                            <h:outputText id="cedulavista" value="Cedula profesional: #{recetaControlador.cedulaprofesional}" class="ui-g-12"/>
+                                            <h:outputText id="institucionvista" value="#{recetaControlador.certificado}" class="ui-g-12"/>
+                                            <h:outputText value="#{recetaControlador.usuarioLogueado.empresaId.empresaDomicilio}" class="ui-g-12"/>
+                                        </b:panelGrid>
+                                        
+                                        <b:panelGrid colSpans="6,6">
+                                            <h:outputText value="Nombre: #{recetaControlador.expedienteSeleccionado.pacienteNombre} #{recetaControlador.expedienteSeleccionado.pacientePApellido} #{recetaControlador.expedienteSeleccionado.pacienteSApellido}" class="ui-g-12"/>
+                                            <h:outputText value="Fecha: #{recetaControlador.receta.recetaFecExpedicion}" class="ui-g-12"/>
+                                        </b:panelGrid>
                                     </b:panel>
                                 </p:tab>
                             </p:wizard>
